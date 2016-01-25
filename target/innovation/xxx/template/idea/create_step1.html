@@ -1,0 +1,14 @@
+<div id="idea-create-step1" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Idea"
+	     fn-left="go()" fn-right="checkAndDo(createForm.$valid, go, '/idea/create_step2', 'slideLeft')"></nav>
+	<form name="createForm">
+		<div class="content">
+			<p class="step-img"></p>
+			<p class="step-title">Idea Title
+				<span class="error" ng-show="!createForm.title.$valid">*</span>
+			</p>
+			<input type="text" name="title" ng-model="idea.title" required/>
+			<p class="step-desrcip">An attractive idea title can help you get more attention.</p>
+		</div>
+	</form>
+</div>

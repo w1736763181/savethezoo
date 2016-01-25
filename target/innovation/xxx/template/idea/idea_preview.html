@@ -1,0 +1,33 @@
+
+<div id="idea-preview" class="preview_detail_pages">
+    <nav nav-top data-left="<" data-center="Preview" data-right="Submit"
+         fn-left = "go()" fn-right=""></nav>
+    <div class="preview_detail_wrap" wrap-scroll="idea_preview_wrap" id="idea_preview_wrap">
+        <div>
+            <div class="preview_detail_header">
+                <img class="icon" ng-src="{{iconSrc[idea.type-1][0]}}" />
+                <p class="title">{{idea.title}}</p>
+                <p class="creator">Siqi Zhuo</p>
+            </div>
+            <div class="preview_detail_pics">
+                <ul rn-carousel  rn-carousel-index="carouselIndex" class="image">
+                    <li  ng-repeat="image in idea.imgsSrc track by $index">
+                        <div ng-style="{'background-image': 'url(' + image + ')'}">
+                            <div rn-carousel-indicators ng-if="idea.imgsSrc.length > 1" slides="idea.imgsSrc" rn-carousel-index="carouselIndex"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="preview_detail_content">
+                <div class="block description">
+                    <label class="desclable">Description</label>
+                    <p class="text desc">{{idea.description}}</p>
+                </div>
+                <div class="block bi">
+                    <label class="bilable">Business Impact</label>
+                    <p class="text bi">{{idea.impact}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

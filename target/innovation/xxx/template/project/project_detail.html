@@ -1,0 +1,49 @@
+
+<div id="project-detail" class="preview_detail_pages">
+    <nav nav-top data-left="<" data-center="Project Detail" data-right=""
+         fn-left = "go()" fn-right=""></nav>
+    <div class="preview_detail_wrap" wrap-scroll="project_detail_wrap" id="project_detail_wrap">
+        <div>
+            <div class="preview_detail_header">
+                <img class="icon" ng-src="img/head.png" />
+                <p class="title">{{project.title}}</p>
+                <p class="creator">{{project.owner}}</p>
+            </div>
+            <div class="preview_detail_pics">
+                <ul rn-carousel  rn-carousel-index="carouselIndex" class="image">
+                    <li  ng-repeat="image in project.image track by $index">
+                        <div ng-style="{'background-image': 'url(' + image + ')'}">
+                            <div rn-carousel-indicators ng-if="project.image.length > 1" slides="project.image" rn-carousel-index="carouselIndex"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="preview_detail_content">
+                <div class="block description">
+                    <label class="desclable">Description</label>
+                    <p class="text desc">{{project.description}}</p>
+                </div>
+                <div class="block pp">
+                    <label class="pplable">Planned Period</label>
+                    <p class="text pp">{{project.plannedPeriod}}</p>
+                </div>
+                <div class="block project_member">
+                    <label class="pmLable">Project Member</label>
+                    <div>
+                        <div class="pm" ng-repeat="people in project.projectMember">
+                            <p class="pm_image"><img ng-src="{{people.image}}"/></p>
+                            <p class="pm_name">{{people.name}}</p>
+                        </div>
+                        <div ng-if="project.projectMember.length < 6" class="add">
+                            <img ng-src="img/add.png" />
+                            <p>Apply</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detail_page_bottom">
+        <img ng-src="img/egg.png" />
+    </div>
+</div>

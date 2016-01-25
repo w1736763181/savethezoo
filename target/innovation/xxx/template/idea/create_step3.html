@@ -1,0 +1,15 @@
+<div id="idea-create-step3" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Idea"
+	     fn-left="go()" fn-right="checkAndDo(createForm.$valid, go, '/idea/create_step4', 'slideLeft')"></nav>
+	<form name="createForm">
+		<div class="content">
+			<p class="step-img"></p>
+			<p class="step-title">Business Impact
+				<span class="error" ng-show="!createForm.impact.$valid">*</span>
+			</p>
+			<textarea name="impact" ng-model="idea.impact" required>
+			</textarea>
+			<p class="step-desrcip">You can use up to 200 words to describe the bussiness impact. For example, the benefit for people's life, or an innovation bussiness model.</p>			
+		</div>
+	</form>		 
+</div>

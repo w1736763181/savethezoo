@@ -1,0 +1,21 @@
+<div id="page-idea-create" class="pages idea-create">
+	<nav nav-top data-left="<" data-center="Select Animal"
+	     fn-left="go()"></nav>
+	<div class="page-content">
+		<p style="padding-left: 5px">
+			There are several kinds of animals representing different innovation idea category. You can choose the one suits your idea and raise up the annimal.
+		</p>
+		<div class="carousel-demo">
+			<ul rn-carousel rn-carousel-index="selectedAnimal" rn-carousel-transition="hexagon" rn-carousel-buffered class="carousel3">
+				<li ng-repeat="slide in slides3 track by slide.id">
+					<h3>{{slide.animal}}</h3>
+					<div ng-style="{'background-image': 'url(' + slide.img + ')'}"  class="bgimage">
+					</div>
+					<h4>{{slide.title}}</h4>
+				</li>
+			</ul>
+		</div>
+		<p style="margin-top: 100px; padding-left:5px">{{slides3[selectedAnimal].discription}}</p>
+		<a class="btn btn-success btn-block"  ng-click="go('/idea/create_step1', 'slideLeft')" style="margin-top:5%">Select</a>
+	</div>
+</div>

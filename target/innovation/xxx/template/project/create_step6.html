@@ -1,0 +1,20 @@
+<div id="pj-create-step6" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Project"
+	     fn-left="go()" fn-right="go('/project/create_finish','slideLeft')"></nav>
+	<div class="content">
+		<p class="step-img"></p>
+		<p class="step-title">Invite Colleagues</p>
+		<p class="step-desrcip">You could invite 3-4 colleagues to join the project</p>
+		<div class="add-pic">
+			<div class="imgs">
+				<div class="img" ng-repeat="user in selectedUser track by $index">
+					{{user.id}}
+					<span class="close" ng-click="delUser($index)">X</span>
+				</div>
+				<div class="img add">
+					<a ng-click="go('/user/add_list','slideLeft')"><img src="img/add.png" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

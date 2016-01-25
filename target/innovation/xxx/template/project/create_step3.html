@@ -1,0 +1,17 @@
+<div id="pj-create-step3" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Project"
+	     fn-left="go()" fn-right="checkAndDo(createForm.$valid, go, '/project/create_step4', 'slideLeft')"></nav>
+	<form name="createForm">
+		<div class="content">
+			<p class="step-img"></p>
+			<p class="step-title">Planned Period
+				<span class="error" ng-show="!createForm.$valid">*</span>
+			</p>
+			<p class="date">
+				<input type="date" name="fromDate" ng-model="project.fromDate" required/>
+				<span>-</span>
+				<input type="date" name="toDate" ng-model="project.toDate" required/>
+			</p>
+		</div>
+	</form>		 
+</div>

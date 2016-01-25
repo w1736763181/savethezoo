@@ -1,0 +1,25 @@
+<div id="register-step4" class="pages">
+	<nav nav-top data-left="<" data-right="Save" data-center="Register"
+	     fn-left="go()" fn-right="checkAndDo(regForm.$valid, save)"></nav>
+	<form name="regForm">
+		<div name="regForm" class="form">
+			<p class="title">
+				<label for="username">Username</label>
+				<span class="error" ng-show="!regForm.username.$valid">*</span>
+			</p>
+			<input type="text" name="username" ng-model="username" id="username" required/>
+			<p class="title">
+				<label for="password">Password</label>
+				<span class="error" ng-show="!regForm.password.$valid">*</span>
+			</p>
+			<input type="password" name="password" ng-model="password" id="password" required/>
+			<p class="title">
+				<label for="password2">Confirm Password</label>
+				<span class="error" ng-show="!regForm.password2.$valid">*</span>
+			</p>
+			<input type="password" name="password2" ng-model="password2" id="password2" required/>			
+		</div>
+	</form>
+	<div ng-show="show" class="modal" data-title="title" data-content="content" 
+	  fn-ok="fnOk()" fn-cancel="fnCancel()" data-ok="ok" data-cancel="cancel"></div>
+</div>

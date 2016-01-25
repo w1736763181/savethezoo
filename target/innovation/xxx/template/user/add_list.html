@@ -1,0 +1,29 @@
+<div id="user-add-list" class="pages">
+	<nav nav-top data-left="<" data-center="Select Colleagues"
+	     fn-left="go()"></nav>
+	<div class="content">
+		<p class="search">
+			<input type="search" placeholder="Search" ng-model="keyword"/>
+		</p>
+		<div wrap-scroll="wrap3" id="wrap3">
+			<div>
+				<div class="group" ng-repeat="(first,users) in userListGroup track by first">
+					<p class="first" ng-show="filtered.length">{{first | uppercase}}</p>
+					<p class="item" ng-repeat="user in filtered = (users | filter:{name:keyword}) track by user.id">
+						<img ng-src="{{user.avatar}}" />
+						{{user.name}}
+						<input type="checkbox" ng-model="user.selected"/>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<p class="selected-list">
+				<span class="img"ng-repeat="user in filtered2 =(users | filter:{selected:true}) track by user.id">
+					{{user.id}}
+				</span>
+			</p>
+			<a ng-click="submit(filtered2,go)">Submit({{filtered2.length}})</a>
+		</div>		
+	</div>
+</div>

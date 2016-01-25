@@ -1,0 +1,17 @@
+<div id="project-create-step2" class="pages idea-create">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Project"
+	     fn-left="go()" fn-right="checkAndDo(go, '/project/create_step3', 'slideLeft')"></nav>
+	<div class="page-content">
+		<p class="step-img"></p>
+		<h2>Description</h2>
+		<form id="createForm2"name="createForm" role="form" class="form-horizontal">
+			<div class="form-group" style="margin-bottom: 5px; width: 95%; margin-left: 1%">
+				<!--<input type="text" id="description" ng-model="title" name="title" required class="form-control" />-->
+				<textarea name='description' ng-model="description" class="form-control" rows="10" required></textarea>
+			</div>
+		</form>
+		<p>You can use up to 200 words to describe your project.
+			For example, source of imagination, creativity, function, development and so on.
+			It can be a plus for your idea.</p>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<div id="pj-create-step4" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Project"
+	     fn-left="go()" fn-right="checkAndDo(createForm.$valid, go, '/project/create_step5', 'slideLeft')"></nav>
+	<form name="createForm">
+		<div class="content">
+			<p class="step-img"></p>
+			<p class="step-title">Project Status
+				<span class="error" ng-show="!createForm.$valid">*</span>
+			</p>
+			<select name="select" ng-model="project.status">
+				<option value="1">Design Finish</option>
+				<option value="2">Ready fro Dnoe</option>
+			</select>
+		</div>
+	</form>		 
+</div>

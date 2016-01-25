@@ -1,0 +1,15 @@
+<div id="idea-create-step2" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Idea"
+	     fn-left="go()" fn-right="checkAndDo(createForm.$valid, go, '/idea/create_step3', 'slideLeft')"></nav>
+	<form name="createForm">
+		<div class="content">
+			<p class="step-img"></p>
+			<p class="step-title">Description
+				<span class="error" ng-show="!createForm.description.$valid">*</span>
+			</p>
+			<textarea name="description" ng-model="idea.description" required>
+			</textarea>
+			<p class="step-desrcip">You can use up to 200 words to describe you idea. For example, source of imagination, creativity, function, development and so on. It can be a plus for your idea.</p>	
+		</div>
+	</form>	 
+</div>

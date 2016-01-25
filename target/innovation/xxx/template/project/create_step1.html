@@ -1,0 +1,14 @@
+<div id="pj-create-step1" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Project"
+	     fn-left="go()" fn-right="checkAndDo(createForm.$valid, go, '/project/create_step2', 'slideLeft')"></nav>
+	<form name="createForm">
+		<div class="content">
+			<p class="step-img"></p>
+			<p class="step-title">Project Title
+				<span class="error" ng-show="!createForm.title.$valid">*</span>
+			</p>
+			<input type="text" name="title" ng-model="project.title" required/>
+			<p class="step-desrcip">An attractive project title can help you get more attention.</p>
+		</div>
+	</form>
+</div>

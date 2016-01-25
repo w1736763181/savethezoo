@@ -1,0 +1,41 @@
+<div id="page-idea-create" class="pages">
+	<nav nav-top data-left="<" data-center="Select Animal"
+		 fn-left="go()"></nav>
+	<div class="content">
+		<p class="desc1">There are four kinds of animals represeting different innovation idea category. You can choose the one suits your idea and raise up the animal.</p>
+		<div class="imgs">
+			<input type="radio" id="inp-1" name="type" value="1" ng-model="idea.type"/>
+			<div class="div-img img1" ng-class="{'active':idea.type==1}">
+				<label class="lab-1" for="inp-1"></label>
+				<p class="title">Giraffe</p>
+				<p class="img"><img src="img/animals/1giraffe_idea.png" /></p>
+				<p class="bottom">Connecting the Dots</p>
+			</div>
+			<input type="radio" id="inp-2" name="type" value="2" ng-model="idea.type"/>
+			<div class="div-img img2" ng-class="{'active':idea.type==2}">
+				<label class="lab-2" for="inp-2"></label>
+				<p class="title">Lion</p>
+				<p class="img"><img src="img/animals/4lion_idea.png" /></p>
+				<p class="bottom">Show Off</p>
+			</div>
+			<input type="radio" id="inp-3" name="type" value="3" ng-model="idea.type"/>
+			<div class="div-img img3" ng-class="{'active':idea.type==3}">
+				<label class="lab-3" for="inp-3"></label>
+				<p class="title">Monkey</p>
+				<p class="img"><img src="img/animals/7monkey_idea.png" /></p>
+				<p class="bottom">Monkey</p>
+			</div>
+			<input type="radio" id="inp-4" name="type" value="4" ng-model="idea.type"/>
+			<div class="div-img img4" ng-class="{'active':idea.type==4}">
+				<label class="lab-4" for="inp-4"></label>
+				<p class="title">Eagle</p>
+				<p class="img"><img src="img/animals/10eagle_idea.png"/></p>
+				<p class="bottom">Cloud</p>
+			</div>
+		</div>
+		<p class="desc2">This category allows the players to submit Google like innovation with cutting edge technology</p>
+		<p class="select">
+			<a class="btn" ng-class="{'disabled':!idea.type}" ng-click="go('/idea/create_step1', 'slideLeft')">Select</a>
+		</p>
+	</div>
+</div>

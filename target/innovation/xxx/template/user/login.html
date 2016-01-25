@@ -1,0 +1,30 @@
+<div id="page-login" class="pages">
+	<nav nav-top data-left="<" data-center="Login"
+	     fn-left="go('/homepage','slideLeft')"></nav>
+	<form name="regForm">
+		<div name="regForm" class="form">
+			<p class="p-img">
+				<img ng-src="{{imgSrc}}" />
+			</p>
+			<p class="title">
+				<label for="username">Username</label>
+				<span class="error" ng-show="!regForm.username.$valid">*</span>
+			</p>
+			<input type="text" name="username" ng-model="username" id="username" required/>
+			<p class="title">
+				<label for="password">Password</label>
+				<span class="error" ng-show="!regForm.password.$valid">*</span>
+			</p>
+			<input type="password" name="password" ng-model="password" id="password" required/>	
+			<p class="p-submit">
+				<a class="btn" ng-class="{'disabled':!regForm.$valid}" ng-click="login(username,password)">Log in</a>
+			</p>
+			<div class="div-forget">
+				<p><a ng-click="go('/user/register_step1', 'slideLeft')">Register</a></p>
+				<p><a ng-click="go('/user/register_step1', 'slideLeft')">Forget Password?<a></p>
+			</div>
+		</div>
+	</form>
+	<div ng-show="show" class="modal" data-title="{{title}}" data-content="{{content}}" 
+	  fn-ok="fnOk(go)" data-ok="ok"></div>	
+</div>

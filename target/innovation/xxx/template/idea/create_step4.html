@@ -1,0 +1,21 @@
+<div id="idea-create-step4" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Create Idea"
+	     fn-left="go()" fn-right="go('/idea/idea_preview','slideLeft')"></nav>
+	<div class="content">
+		<p class="step-img"></p>
+		<p class="step-title">Upload Picture</p>
+		<p class="step-desrcip">You can add the picture for your idea to make it vivid and help the others get a better understanding.</p>
+		<div class="add-pic">
+			<div class="imgs">
+				<div class="img" ng-repeat="img in idea.imgsSrc track by $index">
+					<img ng-src="{{img}}" />
+					<span class="close" ng-click="remove($index)">X</span>
+				</div>
+				<div class="img add">
+					<input type="file" change-file='change' />
+					<img src="img/add.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

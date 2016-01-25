@@ -1,0 +1,45 @@
+<div id="project-list">
+	<nav nav-top data-left="<" data-center="Idea"
+	     fn-left="go()"></nav>
+	<div wrap-scroll="wrap2" id="wrap2">
+		<div>
+			<p class="list-header">
+				Time Period
+				<input type="date" ng-model="fromDate"/>
+				-
+				<input type="date" ng-model="toDate"/>
+			</p>
+			<div class="list-item" ng-repeat="item in projectList">
+				<div class="item-h">
+					<div class="avatar">
+						<img ng-src="{{item.type}}"/>
+					</div>
+					<h4 ng-click="go('/project/{{item.id}}','slideLeft')">{{item.title}}</h4>
+					<p>
+						<a class="author" ng-click="go('/user/{{item.authorLink}}','slideLeft')">{{item.author}}</a>
+						<i class="like">{{item.like}}like</i>
+					</p>
+				</div>
+				<div ng-click="go('/project/{{item.id}}','slideLeft')" class="img">
+					<img ng-src="{{item.src}}" />
+					<p class="description">
+						{{item.description}}
+					</p>
+				</div>
+				<p class="date">
+					{{item.date}}
+					<span ng-switch="item.pjState">
+						<span ng-switch-when="3">
+							<a class="todo">Design Finish</a>
+						</span>
+						<span ng-switch-when="4">
+							<a class="todo">Ready for Dnoe</a>
+							<a class="done">Ready for Dnoe</a>
+						</span>			
+					</span>
+				</p>
+			</div>
+		</div>
+	</div>
+	<p class="list-bottom"></p>
+</div>

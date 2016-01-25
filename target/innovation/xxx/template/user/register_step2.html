@@ -1,0 +1,16 @@
+<div id="register-step2" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Register"
+	     fn-left="go()" fn-right="checkAndDo(regForm.$valid, go, '/user/register_step3', 'slideLeft')"></nav>
+	<form name="regForm">
+		<div name="regForm" class="form">
+			<p class="title">
+				<label for="department">Department</label>
+				<span class="error" ng-show="!regForm.department.$valid">*</span></p>
+			<input type="text" name="department" ng-model="department" id="department" required/>
+			<p class="title">
+				<label for="phone">Phone</label>
+				<span class="error" ng-show="!regForm.phone.$valid">*</span></p>
+			<input type="text" name="phone" ng-model="phone" id="phone" required/>
+		</div>
+	</form>
+</div>

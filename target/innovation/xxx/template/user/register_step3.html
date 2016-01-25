@@ -1,0 +1,15 @@
+<div id="register-step3" class="pages">
+	<nav nav-top data-left="<" data-right="Next" data-center="Register"
+	     fn-left="go()" fn-right="go('/user/register_step4', 'slideLeft')"></nav>
+	<div class="content">
+		<p class="img">
+			<img ng-src="{{imgSrc}}" />
+		</p>
+		<p class="img-txt">Upload Avatar</p>
+		<a class="take-pic btn" ng-click="clearAndGo(go, '/page5', 'slideLeft')">Cancel</a>
+		<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files[0])"/>		
+		<a class="select-pic btn">
+			Select From Gallery
+		</a>
+	</div>
+</div>
