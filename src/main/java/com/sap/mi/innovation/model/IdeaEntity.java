@@ -3,7 +3,7 @@ package com.sap.mi.innovation.model;
 import javax.persistence.*;
 
 /**
- * Created by I309891 on 1/12/2016.
+ * Created by I309908 on 1/26/2016.
  */
 @Entity
 @Table(name = "idea", schema = "public", catalog = "innovation")
@@ -12,14 +12,16 @@ public class IdeaEntity {
     private Integer uid;
     private Integer cid;
     private String title;
-    private String content;
     private Integer status;
-    private Integer iVote;
-    private Integer pVote;
+    private String description;
+    private String businessimpact;
+    private Integer likes;
+    private String createddate;
+    private Integer imagenum;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -29,7 +31,7 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "uid")
+    @Column(name = "uid", nullable = true)
     public Integer getUid() {
         return uid;
     }
@@ -39,7 +41,7 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "cid")
+    @Column(name = "cid", nullable = true)
     public Integer getCid() {
         return cid;
     }
@@ -49,7 +51,7 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "title")
+    @Column(name = "title", nullable = true, length = 50)
     public String getTitle() {
         return title;
     }
@@ -59,17 +61,7 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "content")
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = true)
     public Integer getStatus() {
         return status;
     }
@@ -79,23 +71,53 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "i_vote")
-    public Integer getiVote() {
-        return iVote;
+    @Column(name = "description", nullable = true, length = -1)
+    public String getDescription() {
+        return description;
     }
 
-    public void setiVote(Integer iVote) {
-        this.iVote = iVote;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Basic
-    @Column(name = "p_vote")
-    public Integer getpVote() {
-        return pVote;
+    @Column(name = "businessimpact", nullable = true, length = -1)
+    public String getBusinessimpact() {
+        return businessimpact;
     }
 
-    public void setpVote(Integer pVote) {
-        this.pVote = pVote;
+    public void setBusinessimpact(String businessimpact) {
+        this.businessimpact = businessimpact;
+    }
+
+    @Basic
+    @Column(name = "likes", nullable = true)
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    @Basic
+    @Column(name = "createddate", nullable = true, length = 50)
+    public String getCreateddate() {
+        return createddate;
+    }
+
+    public void setCreateddate(String createddate) {
+        this.createddate = createddate;
+    }
+
+    @Basic
+    @Column(name = "imagenum", nullable = true)
+    public Integer getImagenum() {
+        return imagenum;
+    }
+
+    public void setImagenum(Integer imagenum) {
+        this.imagenum = imagenum;
     }
 
     @Override
@@ -109,10 +131,13 @@ public class IdeaEntity {
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (cid != null ? !cid.equals(that.cid) : that.cid != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (content != null ? !content.equals(that.content) : that.content != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
-        if (iVote != null ? !iVote.equals(that.iVote) : that.iVote != null) return false;
-        if (pVote != null ? !pVote.equals(that.pVote) : that.pVote != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (businessimpact != null ? !businessimpact.equals(that.businessimpact) : that.businessimpact != null)
+            return false;
+        if (likes != null ? !likes.equals(that.likes) : that.likes != null) return false;
+        if (createddate != null ? !createddate.equals(that.createddate) : that.createddate != null) return false;
+        if (imagenum != null ? !imagenum.equals(that.imagenum) : that.imagenum != null) return false;
 
         return true;
     }
@@ -123,10 +148,12 @@ public class IdeaEntity {
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (cid != null ? cid.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (iVote != null ? iVote.hashCode() : 0);
-        result = 31 * result + (pVote != null ? pVote.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (businessimpact != null ? businessimpact.hashCode() : 0);
+        result = 31 * result + (likes != null ? likes.hashCode() : 0);
+        result = 31 * result + (createddate != null ? createddate.hashCode() : 0);
+        result = 31 * result + (imagenum != null ? imagenum.hashCode() : 0);
         return result;
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,25 +34,25 @@ public class IdeaController {
         return ideaList;
     }
 
-    @RequestMapping(value = "/createIdea", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity<String> createIdea(@RequestParam(value = "image", required = false) MultipartFile[] uploadImage,
                                              @RequestParam(value = "uid", required = false) int uid,
                                              @RequestParam(value = "cid", required = false) int cid,
                                              @RequestParam(value = "title", required = false) String title,
-                                             @RequestParam(value = "content", required = false) String content,
                                              @RequestParam(value = "status", required = false) int status,
-                                             @RequestParam(value = "i_vote", required = false) int i_vote,
-                                             @RequestParam(value = "p_vote", required = false) int p_vote)
+                                             @RequestParam(value = "description", required = false) String description,
+                                             @RequestParam(value = "businessImpact", required = false) String businessImpact)
     throws IOException{
-
         IdeaEntity idea = new IdeaEntity();
         idea.setUid(uid);
         idea.setCid(cid);
         idea.setTitle(title);
-        idea.setContent(content);
         idea.setStatus(status);
-        idea.setiVote(i_vote);
-        idea.setpVote(p_vote);
+        idea.setDescription(description);
+        idea.setBusinessimpact(businessImpact);
+        idea.setCreateddate(new Date().toString());
+        int imageNum = uploadImage.length;
+        idea.setImagenum(imageNum);
         IdeaEntity savedIdea;
         try {
             savedIdea = ideaRepository.saveAndFlush(idea);
@@ -62,17 +63,15 @@ public class IdeaController {
             return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
         }
         String ps = File.separator;
-        String ideaDirPath = System.getProperty("user.home")+ps+"IdeaProjects"+ps+"innovation_zoo"+ps+"src"+ps+"main"+ps+"uploadedImage"+ps+"idea"+ps+savedIdea.getId();
-//        String ideaDirPath = "C:\\Users\\I309908\\IdeaProjects\\Innovation_Zoo\\src\\main\\uploadImage\\idea\\"+savedIdea.getId();
+//        String ideaDirPath = System.getProperty("user.home")+ps+"IdeaProjects"+ps+"innovation_zoo"+ps+"src"+ps+"main"+ps+"uploadedImage"+ps+"idea"+ps+savedIdea.getId();
+        String ideaDirPath = "C:\\Users\\I309908\\IdeaProjects\\Innovation_Zoo\\src\\main\\uploadImage\\idea\\"+savedIdea.getId();
         System.out.println(ideaDirPath);
         File ideaDir = new File(ideaDirPath);
         if(!ideaDir.exists())
             ideaDir.mkdirs();
         for(int i = 0; i < uploadImage.length;i++) {
             BufferedImage src = ImageIO.read(new ByteArrayInputStream(uploadImage[i].getBytes()));
-            File destination = new File(ideaDirPath + ps + uploadImage[i].getOriginalFilename() + ".png");
-            System.out.println(uploadImage[i].getOriginalFilename());
-            System.out.println(uploadImage[i].getName());
+            File destination = new File(ideaDirPath + ps + i + ".png");
             if (!destination.exists())
                 destination.createNewFile();
             ImageIO.write(src, "png", destination);

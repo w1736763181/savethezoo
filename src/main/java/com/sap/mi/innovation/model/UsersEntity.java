@@ -1,12 +1,12 @@
 package com.sap.mi.innovation.model;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.annotation.Generated;
 import javax.persistence.*;
 
 /**
- * Created by I309891 on 1/12/2016.
+ * Created by I309908 on 1/26/2016.
  */
 @Entity
 @Table(name = "users", schema = "public", catalog = "innovation")
@@ -19,10 +19,11 @@ public class UsersEntity {
     private String phone;
     private String head;
     private String password;
+    private Integer coin;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -32,7 +33,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = true, length = -1)
     public String getEmail() {
         return email;
     }
@@ -42,7 +43,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "firstname")
+    @Column(name = "firstname", nullable = true, length = 50)
     public String getFirstname() {
         return firstname;
     }
@@ -52,7 +53,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "lastname")
+    @Column(name = "lastname", nullable = true, length = 50)
     public String getLastname() {
         return lastname;
     }
@@ -62,7 +63,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "department")
+    @Column(name = "department", nullable = true, length = 50)
     public String getDepartment() {
         return department;
     }
@@ -72,7 +73,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = true, length = 15)
     public String getPhone() {
         return phone;
     }
@@ -82,7 +83,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "head")
+    @Column(name = "head", nullable = true, length = 30)
     public String getHead() {
         return head;
     }
@@ -92,13 +93,24 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "password")
+//    @JsonIgnore
+    @Column(name = "password", nullable = true, length = 20)
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "coin", nullable = true)
+    public Integer getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Integer coin) {
+        this.coin = coin;
     }
 
     @Override
@@ -116,6 +128,7 @@ public class UsersEntity {
         if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
         if (head != null ? !head.equals(that.head) : that.head != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (coin != null ? !coin.equals(that.coin) : that.coin != null) return false;
 
         return true;
     }
@@ -130,6 +143,7 @@ public class UsersEntity {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (head != null ? head.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (coin != null ? coin.hashCode() : 0);
         return result;
     }
 }

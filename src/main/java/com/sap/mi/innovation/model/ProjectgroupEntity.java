@@ -3,19 +3,18 @@ package com.sap.mi.innovation.model;
 import javax.persistence.*;
 
 /**
- * Created by I309891 on 1/12/2016.
+ * Created by I309908 on 1/26/2016.
  */
 @Entity
-@Table(name = "group", schema = "public", catalog = "innovation")
-public class GroupEntity {
+@Table(name = "projectgroup", schema = "public", catalog = "innovation")
+public class ProjectgroupEntity {
     private Integer id;
+    private Integer job;
     private Integer pid;
     private Integer uid;
-    private Integer job;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -25,27 +24,7 @@ public class GroupEntity {
     }
 
     @Basic
-    @Column(name = "pid")
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    @Basic
-    @Column(name = "uid")
-    public Integer getUid() {
-        return uid;
-    }
-
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
-
-    @Basic
-    @Column(name = "job")
+    @Column(name = "job", nullable = true)
     public Integer getJob() {
         return job;
     }
@@ -59,11 +38,9 @@ public class GroupEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GroupEntity that = (GroupEntity) o;
+        ProjectgroupEntity that = (ProjectgroupEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (pid != null ? !pid.equals(that.pid) : that.pid != null) return false;
-        if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (job != null ? !job.equals(that.job) : that.job != null) return false;
 
         return true;
@@ -72,9 +49,27 @@ public class GroupEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (pid != null ? pid.hashCode() : 0);
-        result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (job != null ? job.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "pid", nullable = true)
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    @Basic
+    @Column(name = "uid", nullable = true)
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 }

@@ -6,11 +6,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -27,9 +26,11 @@ public class UserController {
 
     // 用户管理
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<UsersEntity> getAllUsers() {
+    public ResponseEntity<List<UsersEntity>> getAllUsers() {
         // 返回 pages 目录下的 userManage.jsp 页面
-        return userRepository.findAll();
+        List<UsersEntity> userlsit = userRepository.findAll();
+        ResponseEntity<List<UsersEntity>> res = new ResponseEntity<List<UsersEntity>>(userlsit,HttpStatus.OK);
+        return res;
     }
 
     //用户注册
@@ -37,7 +38,7 @@ public class UserController {
     public ResponseEntity<UsersEntity> registerUser(@RequestBody UsersEntity user) {
         try {
             userRepository.saveAndFlush(user);
-            return new ResponseEntity<UsersEntity>(user, HttpStatus.OK);
+            return new ResponseEntity<UsersEntity>(HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             Logger logger = Logger.getLogger(UserController.class);
@@ -46,18 +47,29 @@ public class UserController {
         }
     }
     //用户登录
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody UsersEntity user){
-        List<UsersEntity> userLsit = userRepository.findUserByEmail(user.getEmail());
-        if(userLsit.isEmpty()){
-            return new ResponseEntity<String>("Email not registered.", HttpStatus.UNAUTHORIZED);//-1 represents this email is not registered
-        }
-        else{
-            UsersEntity loginUser = userLsit.get(0);
-            if(!user.getPassword().equals(loginUser.getPassword())){
-                return new ResponseEntity<String>("Wrong password.", HttpStatus.UNAUTHORIZED);
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<List<UsersEntity>> login(@RequestBody UsersEntity user,
+                                        @RequestParam String type) {
+        MultiValueMap responseMap = new LinkedMultiValueMap<String,String>();
+        if ("login".equals(type)) {
+            List<UsersEntity> userLsit = userRepository.findUserByEmail(user.getEmail());
+            if (userLsit.isEmpty()) {
+                responseMap.add("Message","Username Not Found");
+//                responseMap.add(new String(),"Username Not Found");
+                return new ResponseEntity<List<UsersEntity>>(userLsit,responseMap,HttpStatus.UNAUTHORIZED);//-1 represents this email is not registered
+            } else {
+                UsersEntity loginUser = userLsit.get(0);
+                if (!user.getPassword().equals(loginUser.getPassword())) {
+                    responseMap.add("Message","Password Wrong");
+                    return new ResponseEntity<List<UsersEntity>>(userLsit,responseMap,HttpStatus.UNAUTHORIZED);
+                }
+                else {
+                    responseMap.add("Message","Login Successfully");
+                    return new ResponseEntity<List<UsersEntity>>(userLsit, HttpStatus.OK);
+                }
             }
-                return new ResponseEntity<String>("Login successfully.", HttpStatus.OK);
         }
+        else
+            return new ResponseEntity<List<UsersEntity>>(HttpStatus.EXPECTATION_FAILED);
     }
 }
