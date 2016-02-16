@@ -11,8 +11,11 @@ var app = angular.module('myApp', [
 app.config(['$compileProvider', function ($compileProvider) {
         $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|blob):/);
 }])
-.run(['$rootScope', '$location', '$window', 'userMeModel', 'ANIMAL_IMAGES', function ($rootScope, $location, $window, userMeModel, ANIMAL_IMAGES) {
-    $rootScope.go = function (path, pageAnimationClass) {
+.run(['$rootScope', '$location', '$window', 'userModel', 'ANIMAL_IMAGES', function ($rootScope, $location, $window, userModel, ANIMAL_IMAGES) {
+	//these relating urls need login
+	var REG_CTRL_NEED_LOGIN = /histroy|add_list|message|user\/me|create|preview/i;
+	
+	$rootScope.go = function (path, pageAnimationClass) {
 
         if (typeof(pageAnimationClass) === 'undefined') {
             $rootScope.pageAnimationClass = 'slideRight';
@@ -36,8 +39,11 @@ app.config(['$compileProvider', function ($compileProvider) {
 			fn.apply(null,args);
 		}
 	}
-	$rootScope.$on('$routeChangeSuccess', function(e,to,toP,from,fromP){
-		//console.log(1)
+	$rootScope.$on('$locationChangeStart', function(){
+		if(REG_CTRL_NEED_LOGIN.test($location.path()) && !userModel.isLogin){
+			var params=$location.path();
+			$location.path('user/login').search({url:params});
+		}
 	})
     $rootScope.iconSrc = ANIMAL_IMAGES;
 }])

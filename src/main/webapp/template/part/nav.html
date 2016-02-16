@@ -1,0 +1,14 @@
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div ng-switch="left" class="left">
+            <div ng-switch-when="homepage">
+                <a ng-click="fnLeft()" ng-show="showLeft" class="btn pull-left"><i class="fa fa-home"></i></a>
+            </div>
+            <div ng-switch-when="back">
+                <a ng-click="fnLeft()" ng-show="showLeft" class="btn pull-left"><i class="fa fa-angle-left"></i></a>
+            </div>
+        </div>
+        <h4 class="center">{{center}}</h4>
+        <a ng-click="fnRight()" ng-show="showRight" class="btn pull-right">{{right}}</a>
+    </div>
+</div>

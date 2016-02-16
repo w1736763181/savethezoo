@@ -1,5 +1,5 @@
 <div id="project-list">
-	<nav nav-top data-left="<" data-center="Idea"
+	<nav nav-top data-left="<" data-center="Project"
 	     fn-left="go()"></nav>
 	<div wrap-scroll="wrap2" id="wrap2">
 		<div>
@@ -9,7 +9,7 @@
 				-
 				<input type="date" ng-model="toDate"/>
 			</p>
-			<div class="list-item" ng-repeat="item in projectList">
+			<div class="list-item" ng-repeat="item in projectList track by $index">
 				<div class="item-h">
 					<div class="avatar">
 						<img ng-src="{{item.type}}"/>
@@ -17,7 +17,9 @@
 					<h4 ng-click="go('/project/{{item.id}}','slideLeft')">{{item.title}}</h4>
 					<p>
 						<a class="author" ng-click="go('/user/{{item.authorLink}}','slideLeft')">{{item.author}}</a>
-						<i class="like">{{item.like}}like</i>
+						<i ng-class="{true:'fa fa-heart fa-2x', false:'fa fa-heart-o fa-2x'}[item.isVoted]" ng-click="toggleVote($index)">
+							<span class="list_likes">{{item.like}}</span>
+						</i>
 					</p>
 				</div>
 				<div ng-click="go('/project/{{item.id}}','slideLeft')" class="img">

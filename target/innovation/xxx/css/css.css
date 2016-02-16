@@ -36,6 +36,9 @@ textarea {
 input {
   font-family: comfortaa;
 }
+ul{
+  list-style-type:none;
+}
 .input {
   background: transparent;
   outline: none;
@@ -174,6 +177,9 @@ nav.inverse a:hover {
 }
 #homepage .btn {
   margin-right: 2%;
+}
+#homepage .btn.btn-left {
+  display:none;
 }
 #homepage .block {
   position: absolute;
@@ -457,7 +463,8 @@ nav.inverse a:hover {
   height: 100%;
   position: relative;
 }
-#user-add-list .content .search {
+/*search bar begin*/
+.content .search {
   margin-top: 3em;
   position: absolute;
   width: 100%;
@@ -466,7 +473,7 @@ nav.inverse a:hover {
   z-index: 9;
   background: #F9F0EB;
 }
-#user-add-list .content .search input {
+.content .search input {
   outline: none;
   width: 96%;
   margin: 0 2%;
@@ -475,10 +482,11 @@ nav.inverse a:hover {
   border-radius: 5px;
   -webkit-border-radius: 5px;
 }
-#user-add-list .content .search input::-webkit-input-placeholder {
+.content .search input::-webkit-input-placeholder {
   color: #edd3c4;
   font-family: comfortaa;
 }
+/*search bar end*/
 #user-add-list .content #wrap3 {
   position: absolute;
   left: 0;
@@ -494,9 +502,16 @@ nav.inverse a:hover {
   border-bottom: 1px solid #F9F0EB;
   padding: 0.5em 1em;
 }
+#user-add-list .content #wrap3 .group .item img{
+	width:3em;
+	height:3em;
+	vertical-align:middle;
+}
 #user-add-list .content #wrap3 .group .item input {
   float: right;
   margin-right: 2em;
+  position:relative;
+  top:1em;
 }
 #user-add-list .content .bottom {
   position: absolute;
@@ -1016,8 +1031,8 @@ nav.inverse a:hover {
   position: relative;
 }
 #project-list .list-item .item-h .avatar {
-  width: 4em;
-  height: 4em;
+  width: 3em;
+  height: 3em;
 }
 #project-list .list-item .item-h .avatar img {
   width: 100%;
@@ -1026,7 +1041,7 @@ nav.inverse a:hover {
 #project-list .list-item .item-h h4,
 #project-list .list-item .item-h p {
   position: absolute;
-  left: 4.5em;
+  left: 4em;
   right: 0;
   top: 0;
   height: 2em;
@@ -1580,7 +1595,7 @@ nav.inverse a:hover {
 .modal .modal-inner .footer a {
   float: right;
   margin-right: 5px;
-}
+}/*
 .modal.ng-hide-add,
 .modal.ng-hide-remove {
   transition: 0.6s all;
@@ -1603,7 +1618,7 @@ nav.inverse a:hover {
   transform: scale(1, 0);
   -webkit-transform: scale(1, 0);
   display: block !important;
-}
+} */
 .preview_detail_pages{
   height:100%;
   background-color: white;
@@ -1669,12 +1684,6 @@ nav.inverse a:hover {
   border:1px solid grey;
   background-color:white;
 }
-.detail_page_bottom img{
-  position:fixed;
-  width:2em;
-  right:1em;
-  bottom:0em;
-}
 .preview_detail_content .project_member .pm{
   display:inline-block;
   margin-left:1em;
@@ -1698,4 +1707,202 @@ nav.inverse a:hover {
 .preview_detail_content .project_member .add p{
   font-size:0.6em;
   text-align:center;
+}
+.detail_page_bottom .fa-heart {
+  color:red;
+  padding-top:0.3em;
+  display:inline-block;
+  padding-left:75%;
+}
+.detail_page_bottom .detail_likes {
+  color: red;
+  font-weight: bold;
+  font-size: 1.3em;
+  display:inline-block;
+}
+#idea-list .fa-heart-o{
+  float: right;
+  margin-right: 1em;
+  color:red;
+}
+#idea-list .fa-heart{
+  float: right;
+  margin-right: 1em;
+  color:red;
+}
+#project-list .fa-heart-o{
+  float: right;
+  margin-right: 1em;
+  color:red;
+}
+#project-list .fa-heart{
+  float: right;
+  margin-right: 1em;
+  color:red;
+}
+
+.list_likes{
+  font-size: 0.5em;
+}
+
+
+#wrap-me{
+	position:absolute;
+	width:100%;
+}
+#wrap-me .profile .img{
+	display:inline-block;
+	width:3em;
+	height:3em;
+	padding:0.5em;
+	border-radius:1.5em;
+	overflow:hidden;
+}
+#wrap-me .profile .img img{
+	width:100%;height:100%;
+}
+#wrap-me .profile .txt{
+	display:inline-block;
+}
+#wrap-me .profile .txt h3{
+	
+}
+#wrap-me .profile .txt .dep{
+	color:#E2A393;
+	margin-top:0.3em;
+}
+#wrap-me .profile .txt .contact{
+	margin-top:0.3em;
+}
+#wrap-me .contact i{
+	margin-right:0.5em;
+	color:#E2A393;
+}
+#wrap-me .contact i.fa-mobile-phone{
+	margin-left:2em;
+	font-size:1.3em;
+}
+#wrap-me .coin{
+	margin-top:1em;
+	padding-top:0.5em;
+	padding-left:4em;
+	border-top:1px solid #efefef;
+	color:#E2A393;
+}
+#wrap-me .coin  .fa-stack{
+	color:#ECD942;
+}
+#wrap-me .coin  .fa-chevron-right{
+	color:#888;
+	float:right;
+	vertical-align:middle;
+	position:relative;
+	top:0.5em;right:1em;
+}
+#wrap-me .message{
+	margin-top:0;
+}
+#wrap-me .message .fa-bell{
+	color:#ECD942;
+}
+#wrap-me .tabs{
+	display:flex;
+	text-align:center;
+	margin-top:0.5em;
+	cursor:pointer;
+}
+#wrap-me .tabs li{
+	 flex: 1;
+	 border-top:1px solid #E2A393;
+	 border-bottom:1px solid #E2A393;
+	 color:#E2A393;
+	 padding:0.5em;
+	 transition:background 0.4s;
+	 .user-select:none;
+}
+#wrap-me .tabs li.active{
+	background-color:#F79112;
+	color:#fff;
+}
+#wrap-me .list-item{
+	margin-top:0.5em;
+}
+
+#coin-histroy,#message-list{
+	margin-top:3em;
+	height:100%;
+	background:#fff;
+}
+#coin-histroy .item,#message-list .item{
+	padding:1em;
+	border-bottom:1px solid #EFEFEF;
+}
+#coin-histroy .item .tit .num{
+	float:right;
+	color:#D2A319;
+}
+#coin-histroy .item .date,#message-list .item .date{
+	color:#BB9D9D;
+	font-size:0.8em;
+}
+#message-list .read,#message-list .item.read .date{
+	color:#AAA !important;
+}
+#message-list .modal-cong{
+	position:absolute;
+	width:100%;
+	height:100%;
+	z-index:9999;
+	top:0;
+	background:rgba(0,0,0,0.7);
+}
+#message-list .modal-cong .inner{
+	position:absolute;
+	top:20%;
+	left:5%;
+	width:90%;
+	height:60%;
+}
+#message-list .modal-cong .img{
+	height:50%;
+	text-align:center;
+}
+#message-list .modal-cong .img img{
+	height:100%;
+}
+#message-list .modal-cong p.txt{
+	text-align:center;
+	line-height:1.4;
+	color:#f9f0eb;
+}
+#message-list .modal-cong .inner a{
+	color:#f9f0eb;
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+#user-list ul{
+	padding-top:6em;
+	position:absolute;
+	height:100%;
+	background:white;
+	margin-bottom:10em;
+}
+#user-list li{
+	display:inline-block;
+	width:4em;
+	height:4em;
+	padding:0.5em 1em;
+	pointer:cursor;
+}
+#user-list li img{
+	width:100%;
+	height:100%;
+}
+#user-list li span{
+	display:inline-block;
+	text-align:center;
+	width:4em;
+	overflow:hidden;
 }

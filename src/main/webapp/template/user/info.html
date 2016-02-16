@@ -1,0 +1,76 @@
+<div id="user-info" class="pages">
+    <nav nav-top data-left="back" data-center="{{user.firstname}} {{user.lastname}}"
+         fn-left="go()"></nav>
+    <div class="page-content">
+        <div class="profile">
+            <div class="img">
+                <img ng-src={{user.head}} class="img-circle"/>
+            </div>
+            <div class="txt">
+                <h5>
+                    <strong>{{user.firstname}} {{user.lastname}}</strong>
+                </h5>
+                <h6 class="dep">{{user.department}}</h6>
+                <p class="contact">
+                    <i class="fa fa-envelope"></i>{{user.email}}
+                    <i class="fa fa-mobile-phone"></i>{{user.phone}}
+                </p>
+            </div>
+        </div>
+        <p class="coin" ng-click="go('/user/coin_histroy','slideLeft')" ng-show="userType">
+				<span class="fa-stack">
+				  <i class="fa fa-circle fa-stack-2x"></i>
+				  <i class="fa fa-dollar fa-stack-1x fa-inverse"></i>
+				</span>
+            {{user.coin}}
+            <i class="fa fa-chevron-right"></i>
+        </p>
+        <p class="coin message" ng-click="go('/user/message','slideLeft')" ng-show="userType">
+            <i class="fa fa-bell fa-2x"></i>
+            <!--{{user.messageNum}}-->
+            1
+            <i class="fa fa-chevron-right"></i>
+        </p>
+        <br>
+        <ul class="tabs">
+            <li ng-click="changeType(2)" ng-class="{active:type==2}">Idae-2</li>
+            <li ng-click="changeType(1)" ng-class="{active:type==1}">Project-1</li>
+        </ul>
+        <div class="list-item" ng-repeat="item in list track by $index">
+            <div class="item-h">
+                <div class="avatar">
+                    <img ng-src="{{item.type}}"/>
+                </div>
+                <h4 ng-click="go('/idea/{{item.id}}','slideLeft')">{{item.title}}</h4>
+                <p>
+                    <a class="author" ng-click="go('/user/{{item.authorLink}}','slideLeft')">{{item.author}}</a>
+                    <i ng-class="{true:'fa fa-heart', false:'fa fa-heart-o'}[item.isVoted]"
+                       ng-click="toggleVote($index)">
+                        <span class="list_likes">{{item.like}}</span>
+                    </i>
+                </p>
+            </div>
+            <div class="img">
+                <img ng-click="go('/idea/{{item.id}}','slideLeft')" ng-src="{{item.src}}"/>
+                <p class="description">
+                    {{item.description}}
+                </p>
+            </div>
+            <p class="date">
+                {{item.date}}
+					<span ng-switch="item.pjState">
+						<span ng-switch-when="1">
+							<a class="todo">Approve Project</a>
+						</span>
+						<span ng-switch-when="2">
+							<a class="todo">Generate Project</a>
+						</span>
+						<span ng-switch-when="3">
+							<a class="done">Project</a>
+						</span>
+					</span>
+            </p>
+        </div>
+    </div>
+    <p class="list-bottom"></p>
+</div>

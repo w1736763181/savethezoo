@@ -1,27 +1,30 @@
 package com.sap.mi.innovation.model;
 
+import javafx.beans.DefaultProperty;
+
 import javax.persistence.*;
+import java.sql.Date;
 
 /**
- * Created by I309908 on 1/26/2016.
+ * Created by I309891 on 1/27/2016.
  */
 @Entity
 @Table(name = "idea", schema = "public", catalog = "innovation")
 public class IdeaEntity {
     private Integer id;
     private Integer uid;
-    private Integer cid;
+    private String category;
     private String title;
-    private Integer status;
+    private Integer status = 0;
     private String description;
-    private String businessimpact;
-    private Integer likes;
-    private String createddate;
-    private Integer imagenum;
+    private String businessImpact;
+    private Integer likes = 0;
+    private Date createDate;
+    private Integer images = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public Integer getId() {
         return id;
     }
@@ -31,7 +34,7 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "uid", nullable = true)
+    @Column(name = "uid")
     public Integer getUid() {
         return uid;
     }
@@ -41,17 +44,17 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "cid", nullable = true)
-    public Integer getCid() {
-        return cid;
+    @Column(name = "category")
+    public String getCategory() {
+        return category;
     }
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Basic
-    @Column(name = "title", nullable = true, length = 50)
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -61,7 +64,7 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "status", nullable = true)
+    @Column(name = "status")
     public Integer getStatus() {
         return status;
     }
@@ -71,27 +74,27 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = -1)
-    public String getDescription() {
+    @Column(name = "description")
+    public String getDiscription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDiscription(String discription) {
+        this.description = discription;
     }
 
     @Basic
-    @Column(name = "businessimpact", nullable = true, length = -1)
-    public String getBusinessimpact() {
-        return businessimpact;
+    @Column(name = "businessImpact")
+    public String getBusinessImpact() {
+        return businessImpact;
     }
 
-    public void setBusinessimpact(String businessimpact) {
-        this.businessimpact = businessimpact;
+    public void setBusinessImpact(String businessImpact) {
+        this.businessImpact = businessImpact;
     }
 
     @Basic
-    @Column(name = "likes", nullable = true)
+    @Column(name = "likes")
     public Integer getLikes() {
         return likes;
     }
@@ -101,23 +104,24 @@ public class IdeaEntity {
     }
 
     @Basic
-    @Column(name = "createddate", nullable = true, length = 50)
-    public String getCreateddate() {
-        return createddate;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "createDate")
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreateddate(String createddate) {
-        this.createddate = createddate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Basic
-    @Column(name = "imagenum", nullable = true)
-    public Integer getImagenum() {
-        return imagenum;
+    @Column(name = "images")
+    public Integer getImages() {
+        return images;
     }
 
-    public void setImagenum(Integer imagenum) {
-        this.imagenum = imagenum;
+    public void setImages(Integer images) {
+        this.images = images;
     }
 
     @Override
@@ -129,15 +133,15 @@ public class IdeaEntity {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
-        if (cid != null ? !cid.equals(that.cid) : that.cid != null) return false;
+        if (category != null ? !category.equals(that.category) : that.category != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (businessimpact != null ? !businessimpact.equals(that.businessimpact) : that.businessimpact != null)
+        if (businessImpact != null ? !businessImpact.equals(that.businessImpact) : that.businessImpact != null)
             return false;
         if (likes != null ? !likes.equals(that.likes) : that.likes != null) return false;
-        if (createddate != null ? !createddate.equals(that.createddate) : that.createddate != null) return false;
-        if (imagenum != null ? !imagenum.equals(that.imagenum) : that.imagenum != null) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+        if (images != null ? !images.equals(that.images) : that.images != null) return false;
 
         return true;
     }
@@ -146,14 +150,14 @@ public class IdeaEntity {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (cid != null ? cid.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (businessimpact != null ? businessimpact.hashCode() : 0);
+        result = 31 * result + (businessImpact != null ? businessImpact.hashCode() : 0);
         result = 31 * result + (likes != null ? likes.hashCode() : 0);
-        result = 31 * result + (createddate != null ? createddate.hashCode() : 0);
-        result = 31 * result + (imagenum != null ? imagenum.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (images != null ? images.hashCode() : 0);
         return result;
     }
 }

@@ -67,3 +67,20 @@ direc.directive('modal',[function(){
 		templateUrl:'template/part/list_bottom.html'
 	};
 }])
+.directive('modal2',[function(){
+	return {
+		restrict: 'AEC',
+		replace:true,
+		scope:{
+			show2:'=',
+			pjPic:'=',
+			content:'='
+		},
+		templateUrl:'template/part/modal2.html',
+		link:function(scope,elem,attrs){
+			scope.close=function(){
+				scope.show2=false;
+			}
+		}
+	};
+}])

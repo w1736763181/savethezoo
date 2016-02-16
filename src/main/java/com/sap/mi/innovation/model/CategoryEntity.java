@@ -1,67 +1,67 @@
 package com.sap.mi.innovation.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
- * Created by I309908 on 1/26/2016.
+ * Created by I309891 on 1/27/2016.
  */
 @Entity
 @Table(name = "category", schema = "public", catalog = "innovation")
 public class CategoryEntity {
-    private Integer id;
-    private String description;
-    private String image;
-    private Integer status;
+    @EmbeddedId CategoryId id;
     private String title;
+    private String discription;
+    private String image;
 
-    @Id
-    @Column(name = "id", nullable = false)
-    public Integer getId() {
-        return id;
+    @Basic
+    @Column(name = "animal")
+    public String getAnimal() {
+        return id.getAnimal();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAnimal(String animal) {
+        this.id.setAnimal(animal);
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = -1)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
-    @Column(name = "image", nullable = true, length = 50)
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Basic
-    @Column(name = "status", nullable = true)
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    @Basic
-    @Column(name = "title", nullable = true, length = 50)
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Basic
+    @Column(name = "discription")
+    public String getDiscription() {
+        return discription;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public Integer getStatus() {
+        return id.getStatus();
+    }
+
+    public void setStatus(Integer status) {
+        id.setStatus(status);
+    }
+
+    @Basic
+    @Column(name = "image")
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override
@@ -71,22 +71,64 @@ public class CategoryEntity {
 
         CategoryEntity that = (CategoryEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (image != null ? !image.equals(that.image) : that.image != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if(!id.equals((that.getId()))) {
+            return false;
+        }
+
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (discription != null ? !discription.equals(that.discription) : that.discription != null) return false;
+        if (image != null ? !image.equals(that.image) : that.image != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
+        int result = id.getAnimal() != null ? id.getAnimal().hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (discription != null ? discription.hashCode() : 0);
+        result = 31 * result + (id.getStatus() != null ? id.getStatus().hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
+    }
+
+    public CategoryId getId() {
+        return id;
+    }
+}
+
+@Embeddable
+class CategoryId implements Serializable{
+    private String animal;
+    private Integer status;
+
+    public String getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(String animal) {
+        this.animal = animal;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryId that = (CategoryId) o;
+        if(!this.animal.equals(that.getAnimal())) {
+            return false;
+        }
+        if(!this.status.equals(that.getStatus())) {
+            return false;
+        }
+        return true;
     }
 }

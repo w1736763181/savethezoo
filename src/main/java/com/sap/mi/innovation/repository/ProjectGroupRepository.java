@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Created by I309908 on 1/26/2016.
  */
 @Repository
-public interface ProjectgroupRepository extends JpaRepository<ProjectgroupEntity, Integer> {
+public interface ProjectGroupRepository extends JpaRepository<ProjectgroupEntity, Integer> {
 }

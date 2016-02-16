@@ -4,10 +4,13 @@
     <persistence-unit name="defaultPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>com.sap.mi.innovation.model.CategoryEntity</class>
-        <class>com.sap.mi.innovation.model.GroupEntity</class>
         <class>com.sap.mi.innovation.model.IdeaEntity</class>
         <class>com.sap.mi.innovation.model.UsersEntity</class>
-        <class>com.sap.mi.innovation.model.VotingEntity</class>
+        <class>com.sap.mi.innovation.model.IVotingEntity</class>
+        <class>com.sap.mi.innovation.model.NotificationEntity</class>
+        <class>com.sap.mi.innovation.model.PVotingEntity</class>
+        <class>com.sap.mi.innovation.model.ProjectEntity</class>
+        <class>com.sap.mi.innovation.model.ProjectgroupEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/innovation"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>

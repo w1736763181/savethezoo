@@ -20,6 +20,7 @@ public class UsersEntity {
     private String head;
     private String password;
     private Integer coin;
+    private Integer authentication = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,6 +112,15 @@ public class UsersEntity {
 
     public void setCoin(Integer coin) {
         this.coin = coin;
+    }
+
+    @Basic
+    @Column(name = "authentication", nullable = true, length = 20)
+    public Integer getAuth() {
+        return authentication;
+    }
+    public void setAuth(Integer auth) {
+        this.authentication = auth;
     }
 
     @Override

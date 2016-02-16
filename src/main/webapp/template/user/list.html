@@ -1,0 +1,18 @@
+<div id="user-list" class="pages">
+	<nav nav-top data-left="homepage" data-center="People({{total}})"
+	     fn-left="go('homepage', 'slideRight')"></nav>
+	<div class="page-content">
+		<p class="search">
+			<input type="search" placeholder="Search" ng-model="keyword"/>
+		</p>
+		<ul id="wrap11" wrap-scroll='wrap11'>
+			<div>
+				<li ng-repeat="item in list | filter:keyword" >
+					<img ng-src="{{item.head}}" ng-click="go('/user/{{item.id}}','slideLeft')" class="img-circle"/>
+					<span class="name">{{item.firstname}} {{item.lastname}}</span>
+				</li>
+			</div>
+		</ul>
+	</div>
+	<p class="list-bottom"></p>
+</div>

@@ -31,11 +31,23 @@ router.config(['$routeProvider', function($routeProvider){
 		.when('/user/list', {
             controller : 'userListCtrl',
             templateUrl : 'template/user/list.html'			
-		})	
+		})
+		.when('/user/coin_histroy', {
+            controller : 'coinCtrl',
+            templateUrl : 'template/user/coin_histroy.html'			
+		})		
 		.when('/user/add_list', {
             controller : 'userAddProjectCtrl',
             templateUrl : 'template/user/add_list.html'			
-		})			
+		})
+		.when('/user/message', {
+            controller : 'userMsgCtrl',
+            templateUrl : 'template/user/message.html'			
+		})	
+		.when('/user/:id', {
+            controller : 'userInfoCtrl',
+            templateUrl : 'template/user/info.html'			
+		})		
 		.when('/idea/create', {
             controller : 'ideaCreateCtrl',
             templateUrl : 'template/idea/create.html'			
