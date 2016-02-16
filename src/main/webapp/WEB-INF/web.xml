@@ -23,7 +23,7 @@
 
     <filter-mapping>
         <filter-name>cors</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/ajax/*</url-pattern>
     </filter-mapping>
 
 </web-app>
