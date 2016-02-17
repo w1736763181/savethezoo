@@ -1,7 +1,7 @@
 var userCtrl = angular.module('userController', []);
 
 userCtrl
-    .controller('register1Ctrl', ['$scope', "registerModel", function ($scope, register) {
+    .controller('register1Ctrl', ['$scope', "userModel", function ($scope, register) {
         $scope.checkAndDo = function (fn, a, b) {
             $("#regForm1").bootstrapValidator('validate');
             if ($("#regForm1").data('bootstrapValidator').isValid()) {
@@ -53,7 +53,7 @@ userCtrl
             });
         }, 500);
     }])
-    .controller('register2Ctrl', ['$scope', 'DEFAULT_AVATAR', 'registerModel', 'cropImage', function ($scope, DEFAULT_AVATAR, register, cropImage) {
+    .controller('register2Ctrl', ['$scope', 'DEFAULT_AVATAR', 'userModel', 'cropImage', function ($scope, DEFAULT_AVATAR, register, cropImage) {
         $scope.imgSrc = cropImage.cropedImg || DEFAULT_AVATAR;
         $scope.next = function() {
             if(cropImage.cropedImg) {
@@ -75,19 +75,29 @@ userCtrl
         angular.element(document.querySelector('#input_head')).on('change', handleFileSelect);
         //
     }])
-    .controller('register3Ctrl', ['$scope', 'registerModel', 'DEFAULT_AVATAR', function ($scope, registerModel, DEFAULT_AVATAR) {
+    .controller('register3Ctrl', ['$scope', 'userModel', 'DEFAULT_AVATAR', '$location', function ($scope, userModel, DEFAULT_AVATAR, $location) {
 
         $scope.save = function() {
             $("#regForm3").bootstrapValidator('validate');
             if ($("#regForm3").data('bootstrapValidator').isValid()) {
-                registerModel.user.firstname = $scope.fname;
-                registerModel.user.lastname = $scope.lname;
-                registerModel.user.department = $scope.department;
-                registerModel.user.phone = $scope.phone;
-                registerModel.register(function(data) {
-                    alert("success!");
+                userModel.user.firstname = $scope.fname;
+                userModel.user.lastname = $scope.lname;
+                userModel.user.department = $scope.department;
+                userModel.user.phone = $scope.phone;
+                userModel.register(function(data) {
+					$scope.show=true;
+					$scope.title="SUCCESS";
+					$scope.content="REGISTER SUCCESS!";
+					$scope.fnOk=function(){
+						$scope.go($location.search().url,'slideLeft');
+					}
                 }, function() {
-
+					$scope.show=true;
+					$scope.title="ERROR";
+					$scope.content="REGISTER ERROR!";
+					$scope.fnOk=function(){
+						$scope.show=false;
+					}					
                 });
             }
         }
@@ -150,24 +160,40 @@ userCtrl
             }
         }
     }])
-    .controller('loginCtrl', ['$scope', 'DEFAULT_AVATAR', 'authenticationSvc', function ($scope, DEFAULT_AVATAR, authService) {
+    .controller('loginCtrl', ['$scope', 'DEFAULT_AVATAR', 'userModel', '$location', function ($scope, DEFAULT_AVATAR, authService, $location) {
         $scope.imgSrc = DEFAULT_AVATAR;
-        $scope.login = function () {
-            authService.login($scope.email, $scope.password)
+		$scope.show=false;
+        $scope.login = function (go) {
+            authService.login($scope.email, $scope.password,function success(){
+				//SUCCESS
+				$scope.show=true;
+				$scope.title="SUCCESS";
+				$scope.content="LOGIN SUCCESS!";
+				$scope.fnOk=function(){
+					go($location.search().url,'slideLeft');
+				}
+			},function error(){
+				$scope.show=true;
+				$scope.title="ERROR";
+				$scope.content="LOGIN ERROR!";
+				$scope.fnOk=function(){
+					$scope.show=false;
+				}
+			})
         }
     }])
-    .controller('userListCtrl', ['$scope', 'peopleModel', function ($scope, userModel) {
+    .controller('userListCtrl', ['$scope', 'userModel', function ($scope, userModel) {
+		$scope.total=0;
         $scope.listType = 3;
         userModel.getUserList(function (data) {
             $scope.list = data;
             $scope.total = data.length;
-            $scope.$digest();
         }, function () {
 
         })
 
     }])
-    .controller('userInfoCtrl', ['$scope', '$routeParams', 'peopleModel', function ($scope, $routeParams, userModel) {
+    .controller('userInfoCtrl', ['$scope', '$routeParams', 'userModel', function ($scope, $routeParams, userModel) {
         var id = $routeParams.id, userinfo;
 
         if (id == +id) {
@@ -182,8 +208,8 @@ userCtrl
             $scope.listType = 4;
             $scope.userType = 1;   //me
             $scope.name = "Me";
-            id = user.model.id;
-            $scope.me = user.model;
+            id = userModel.user.id;
+            $scope.user = userModel.user;
         }
 
         $scope.type = 1;

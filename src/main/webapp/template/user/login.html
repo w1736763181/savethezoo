@@ -24,11 +24,13 @@
                     </div>
                 </div>
             </form>
-            <button type="button" class="btn btn-success btn-block" ng-click="login()">Log In</button>
+            <button type="button" class="btn btn-success btn-block" ng-click="login(go)">Log In</button>
             <div class="div-forget">
                 <p><a ng-click="go('user/register_step1', 'slideLeft')" class="default-a"><strong>Register</strong></a></p>
-                <p><a ng-click="go('user/register_step1', 'slideLeft')" class="default-a"><strong>Forget Password?</strong><a></p>
+                <p><a ng-click="go('user/register_step1', 'slideLeft')" class="default-a"><strong>Forget Password?</strong></a></p>
             </div>
         </div>
     </div>
+	<div modal ng-show="show" class="my-modal" data-title="{{title}}" data-content="{{content}}" 
+	  fn-ok="fnOk()" data-ok="ok"></div>	
 </div>

@@ -3,8 +3,10 @@
  */
 var projectCtrl = angular.module('projectController', []);
 
-projectCtrl.controller('projectListCtrl', ['$scope', 'projectListModel', function ($scope, list) {
-    $scope.projectList = list.get();
+projectCtrl.controller('projectListCtrl', ['$scope', 'projectModel', 'userModel', function ($scope, list, user) {
+	list.get_list(function(d){
+		$scope.projectList=d;
+	});
     $scope.listType = 2;
 
     $scope.$evalAsync(function () {
@@ -115,13 +117,13 @@ projectCtrl.controller('projectCreate1Ctrl', ['$scope', function ($scope) {
         }, 500);
 
     }])
-    .controller('projectCreate4Ctrl', ['$scope', 'ideaModel', function ($scope, ideaModel) {
+    .controller('projectCreate4Ctrl', ['$scope', 'projectModel', function ($scope, pj) {
         $scope.checkAndDo = function (fn, a, b) {
             fn(a, b);
         }
     }])
-    .controller('projectCreate5Ctrl', ['$scope', 'ideaModel', function ($scope, ideaModel) {
-        $scope.idea = ideaModel.idea;
+    .controller('projectCreate5Ctrl', ['$scope', 'projectModel', function ($scope, pj) {
+        $scope.idea = projectModel.project;
 
         $scope.remove = function (idx) {
             $scope.idea.imgsSrc.splice(idx, 1);
