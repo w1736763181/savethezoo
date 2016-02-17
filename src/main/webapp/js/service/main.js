@@ -184,12 +184,12 @@ service.factory('ideaModel',['$resource', function($resource){
 		type:'',
 		impact:'',
 		image:[],
-		files:[],
+		//files:[],
 	},
 	clear=function(){
 		idea={};
 		idea.image=[];
-		idea.files=[];
+		//idea.files=[];
 	},
 	get_idea=function(id,suc,err){
 		Idea.get_idea({
@@ -208,7 +208,7 @@ service.factory('ideaModel',['$resource', function($resource){
 			description:m.description,
 			businessImpact:m.impact,
 			cid:m.type,
-			image:m.files,
+			image:m.image,
 			status:1			
 		};
 		Idea.save(t).$promise.then(suc,err);

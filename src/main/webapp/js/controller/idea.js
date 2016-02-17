@@ -2,7 +2,7 @@ var ideaCtrl = angular.module('ideaController', []);
 
 ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', function ($scope, ideaService, cate) {
         var idea = ideaService.getIdea();
-		
+		$scope.idea=idea;
         $scope.ideaType = '';
         $scope.selectedAnimal = 1;
         cate.getCategoryList(function(d){
@@ -15,12 +15,11 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', fu
         }
     }])
     .controller('ideaCreate1Ctrl', ['$scope', 'ideaModel', function ($scope, ideaService) {
-        $scope.title = "";
-        var idea = ideaService.getIdea();
+        $scope.idea = ideaService.getIdea();
+
         $scope.checkAndDo = function (fn, a, b) {
             $("#createForm").bootstrapValidator('validate');
             if ($("#createForm").data('bootstrapValidator').isValid()) {
-                idea.title = $scope.title;
                 fn(a, b);
             }
         }
@@ -49,12 +48,11 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', fu
         }, 500);
     }])
     .controller('ideaCreate2Ctrl', ['$scope', 'ideaModel', function ($scope, ideaService) {
-        var idea = ideaService.getIdea();
-        $scope.description = "";
+        $scope.idea = ideaService.getIdea();
+		
         $scope.checkAndDo = function (fn, a, b) {
             $("#createForm2").bootstrapValidator('validate');
             if ($("#createForm2").data('bootstrapValidator').isValid()) {
-                idea.description = $scope.description;
                 fn(a, b);
             }
         }
@@ -83,12 +81,11 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', fu
         }, 500);
     }])
     .controller('ideaCreate3Ctrl', ['$scope', 'ideaModel', function ($scope, ideaService) {
-        var idea = ideaService.getIdea();
-        $scope.businessImpact = "";
+        $scope.idea = ideaService.getIdea();
+
         $scope.checkAndDo = function (fn, a, b) {
             $("#createForm3").bootstrapValidator('validate');
             if ($("#createForm3").data('bootstrapValidator').isValid()) {
-                idea.businessImpact = $scope.businessImpact;
                 fn(a, b);
             }
         }
@@ -123,11 +120,6 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', fu
         $scope.remove=function(idx){
             $scope.idea.image.splice(idx,1);
         }
-
-        $scope.submit = function(){
-			ideaService.submit(user.user.id,function(){	
-			});
-		}
 
         $scope.add=function(file){
             console.log(file)
@@ -179,6 +171,25 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', fu
     .controller('ideaDetailCtrl', ['$scope', 'ideaModel', '$routeParams', function ($scope, idea, $routeParams) {
         $scope.idea = idea.get();
     }])
-    .controller('ideaPreviewCtrl',['ideaModel','$scope', function(ideaM,$scope){
-        $scope.idea= ideaM.get();
+    .controller('ideaPreviewCtrl',['ideaModel','$scope', 'userModel', function(ideaM,$scope,user){
+        $scope.idea= ideaM.getIdea();
+		$scope.show=false;
+		$scope.now=new Date();
+        $scope.submit = function(){
+			ideaM.submit(user.user.id,function() {
+				$scope.show=true;
+				$scope.title="SUCCESS";
+				$scope.content="CREATE SUCCESS!";
+				$scope.fnOk=function(){
+					$scope.go();
+				}
+			}, function() {
+				$scope.show=true;
+				$scope.title="ERROR";
+				$scope.content="CREATE ERROR!";
+				$scope.fnOk=function(){
+					$scope.show=false;
+				}					
+			});
+		}		
     }])

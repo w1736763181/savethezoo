@@ -1330,13 +1330,16 @@ input.tiny {
 .my-modal .modal-inner h3 {
   text-align: center;
 }
-.my-modal .modal-inner .footer {
+.my-modal .modal-inner .foot {
   position: absolute;
   bottom: 10px;
   right: 5px;
   left: 5px;
+  height:1em;
+  background:#fff;
 }
-.my-modal .modal-inner .footer a {
+.my-modal .modal-inner .foot a {
   float: right;
   margin-right: 5px;
+  height:1em;
 }
