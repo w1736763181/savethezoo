@@ -146,7 +146,11 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
         }
     }])
     .controller('ideaListCtrl',['$scope','ideaListModel',function($scope,list){
-        $scope.ideaList=list.get();
+        list.get(function(data) {
+            $scope.ideaList = data;
+            $scope.$digest();
+        }, function(){});
+
         $scope.listType=1;
         $scope.$evalAsync(function(){
             $('#datetimepicker6').datetimepicker({
@@ -166,7 +170,10 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
         }, 500);
     }])
     .controller('ideaDetailCtrl', ['$scope', 'ideaModel', '$routeParams', function ($scope, idea, $routeParams) {
-        $scope.idea = idea.get();
+        idea.get($routeParams.id,function(data){
+            $scope.idea = data;
+            $scope.$digest();
+        },function(){});
     }])
     .controller('ideaPreviewCtrl',['ideaModel','$scope', function(ideaM,$scope){
         $scope.idea= ideaM.get();

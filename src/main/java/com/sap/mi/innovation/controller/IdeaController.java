@@ -1,7 +1,11 @@
 package com.sap.mi.innovation.controller;
 
+import com.sap.mi.innovation.model.CategoryEntity;
 import com.sap.mi.innovation.model.IdeaEntity;
+import com.sap.mi.innovation.repository.CategoryRepository;
+import com.sap.mi.innovation.repository.IVotingRepository;
 import com.sap.mi.innovation.repository.IdeaRepository;
+import com.sap.mi.innovation.wrapper.IdeaModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,10 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,32 +31,38 @@ public class IdeaController {
     // 自动装配
     @Autowired
     private IdeaRepository ideaRepository;
-//    @Autowired
-//    private IVotingRepository iVotingRepository;
+    //@Autowired
+  //  private IVotingRepository iVotingRepository;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
+    private List<IdeaModel> ideaModelList = new ArrayList<IdeaModel>();
+
+    private CategoryController categoryController;
     // 用户管理
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List> getAllIdeas(
-            @RequestParam(value = "uid", required = false) int uid
-    ) {
-        // 找到user表里的所有记录
-        List<IdeaEntity> ideaList = ideaRepository.findAll();
-        //获得当前用户点赞列表
-//        List<IVotingEntity> IVotingList = iVotingRepository.findByuid(uid);
-        //获取idealist中每个idea的封面地址
-//        List<String> ideaCoverpageList = new LinkedList<String>();
-        File rootPath = new File("C:\\Users\\I309908\\IdeaProjects\\savethezoo\\src\\main\\webapp\\www\\uploadimage\\idea");
-        String[] filesname = rootPath.list();
-        //拼接每个idea的第一张图片地址
-        for(int i = 0;i<filesname.length;i++){
-            System.out.println(filesname[i]);
-//            ideaCoverpageList.add("10.59.186.16:8888/www/uploadimage/idea"+"/"+filesname[i]+"/"+"0.png");
+    public ResponseEntity<List<IdeaModel>> getAllIdeas(@RequestParam(value = "uid", required = false) int uid) {
+        EntityManager em = emf.createEntityManager();
+        String sql = "SELECT idea.id,idea.uid,idea.title,idea.description,idea.likes,users.firstname,ideaid,category.images as image,idea.images,createdate FROM idea LEFT JOIN (select * from i_voting where i_voting.uid = ?) AS voting ON idea.id = voting.ideaid left join users on idea.uid = users.id LEFT JOIN category on idea.category = category.animal";
+        Query ideaQuery = em.createNativeQuery(sql);
+        ideaQuery.setParameter(1,uid);
+        List<Object[]> resultList = ideaQuery.getResultList();
+      //  List<IdeaModel> ideaModelList = new ArrayList<IdeaModel>();
+        for(int i =0;i<resultList.size();i++) {
+            IdeaModel im = new IdeaModel();
+            im.setId((Integer)(resultList.get(i)[0]));
+            im.setUid((Integer)(resultList.get(i)[1]));
+            im.setTitle((String)(resultList.get(i)[2]));
+            im.setDescription((String)(resultList.get(i)[3]));
+            im.setLikes((Integer)(resultList.get(i)[4]));
+            im.setFirstname((String)(resultList.get(i)[5]));
+            im.setIdeaid((Integer)(resultList.get(i)[6]));
+            im.setCategoryImage((String)(resultList.get(i)[7]));
+            im.setImages((Integer)(resultList.get(i)[8]));
+            im.setCreatedate((String)(resultList.get(i)[9]));
+            ideaModelList.add(im);
         }
-        List responseList = new ArrayList();
-        responseList.add(ideaList);
-//        responseList.add(IVotingList);
-//        responseList.add(ideaCoverpageList) ;
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok(ideaModelList);
     }
 
 
@@ -140,6 +153,17 @@ public class IdeaController {
             }
         }
         return new ResponseEntity(savedIdea, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<IdeaModel> getIdeasById(@PathVariable int id) {
+        for(IdeaModel im: ideaModelList) {
+            if(im.getId() == id) {
+                return ResponseEntity.ok(im);
+            }
+        }
+        return null;
+
     }
 
 }

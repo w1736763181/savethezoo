@@ -1,6 +1,6 @@
 <div id="idea-list" class="pages">
-    <nav nav-top data-left="<" data-center="Idea"
-         fn-left="go()" class="navbar navbar-default navbar-fixed-top"></nav>
+    <nav nav-top data-left="homepage" data-center="Idea"
+         fn-left="go('homepage', 'slideRight')" class="navbar navbar-default navbar-fixed-top"></nav>
     <div class="page-content">
         <div class="date-picker">
             <label for="datetimepicker6">Time Period</label>
@@ -22,22 +22,27 @@
                 </div>
             </div>
         </div>
-
         <div class="list-item" ng-repeat="item in ideaList">
             <div class="item-h">
                 <div class="avatar">
-                    <img ng-src="{{item.type}}" class="img-rounded center-block"/>
+                   <img ng-src="{{item.categoryImage}}" class="img-rounded center-block"/>
                 </div>
                 <div class="item-h-text">
                 <h4 ng-click="go('/idea/{{item.id}}','slideLeft')"><strong>{{item.title}}</strong></h4>
                 <p>
-                    <a class="author" ng-click="go('/user/{{item.authorLink}}','slideLeft')">{{item.author}}</a>
-                    <i class="like"><i class="fa fa-heart"></i>{{item.like}}</i>
+                    <a class="author" ng-click="go('/user/{{item.authorLink}}','slideLeft')">{{item.firstname}}</a>
+                    <i ng-if="item.ideaid != null" class="like">
+                        <i class="fa fa-heart">{{item.likes}}</i>
+                    </i>
+                    <i ng-if="item.ideaid == null" style="float: right; margin-right: 2em;color:000f;">
+                        <i class="fa fa-heart">{{item.likes}}</i>
+                    </i>
+
                 </p>
                 </div>
             </div>
             <div class="img">
-                <img ng-click="go('/idea/{{item.id}}','slideLeft')" ng-src="{{item.src}}"/>
+                <img ng-click="go('/idea/{{item.id}}','slideLeft')" ng-src="img/idea/{{item.id}}/0.png" alt="">
                 <p class="description">
                     {{item.description}}
                 </p>

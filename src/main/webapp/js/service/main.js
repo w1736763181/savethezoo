@@ -5,16 +5,16 @@ service.constant('DEFAULT_AVATAR', 'img/head.png');
 service.factory('upload', ['$http', function($http) {
 	var upload=function(fd,cb){
 		$http.post('/pic',fd, {
-			withCredentials: true,
-			headers: {'Content-Type': undefined },
-			transformRequest: angular.identity
-		})
-		.success(function(data){
-			cb(data)
-		})
-		.error(function(err){
-			console.log(err)
-		})			
+				withCredentials: true,
+				headers: {'Content-Type': undefined },
+				transformRequest: angular.identity
+			})
+			.success(function(data){
+				cb(data)
+			})
+			.error(function(err){
+				console.log(err)
+			})
 	}
 
 	return {
@@ -138,27 +138,28 @@ service.factory("peopleModel", function() {
 });
 
 service.factory('ideaModel',[function(){
-	var idea={
-		title:'',
-		description:'',
-		type:'',
-		impact:'',
-		imgsSrc:[],
-		files:[],
-	}
-	var clear=function(){
-		idea.title="";
-		idea.description="";
-		idea.type="";
-		idea.impact="";
-		idea.imgsSrc.length=0;
-		idea.files.length=0;
-	}
-	return{
-		idea:idea,
-		clear:clear
-	}
-}]).factory('ideaListModel',[function(){
+		var idea={
+			title:'',
+			description:'',
+			type:'',
+			impact:'',
+			imgsSrc:[],
+			files:[],
+		}
+		var clear=function(){
+			idea.title="";
+			idea.description="";
+			idea.type="";
+			idea.impact="";
+			idea.imgsSrc.length=0;
+			idea.files.length=0;
+		}
+		return{
+			idea:idea,
+			clear:clear
+		}
+	}])
+	.factory('ideaListModel',function($rootScope){
 		//TEST
 		var temp_item={
 			title:'innovation gomification app',
@@ -172,21 +173,21 @@ service.factory('ideaModel',[function(){
 			date:'2016-01-19 16:22',
 			pjState:'2'
 		}
-
-		var get_list=function(){
-			return [
-				temp_item,
-				angular.copy(temp_item),
-				angular.copy(temp_item),
-				angular.copy(temp_item),
-				angular.copy(temp_item)
-			];
+		var ideaList;
+		var idea_list = function(success, error) {
+			$.ajax({
+				url: "ajax/idea?uid=2",
+				method: "GET",
+				contentType: "application/json; charset=utf-8",
+				success: function (data) {
+					success(data);
+				}
+			});
 		}
-
 		return {
-			get:get_list
+			get:idea_list
 		}
-	}])
+	})
 	.factory('projectListModel', ['$rootScope',function($rootScope){
 		//TEST
 		var temp_item={
@@ -216,7 +217,7 @@ service.factory('ideaModel',[function(){
 			get:get_list
 		}
 	}])
-	.factory('ideaModel',[function(){
+	.factory('ideaModel',[function($routeParams){
 		var idea={
 			title:'',
 			description:'',
@@ -234,23 +235,15 @@ service.factory('ideaModel',[function(){
 			idea.files.length=0;
 		}
 
-		var get_idea=function(){
-			var test_idea={
-				title:'haha this is title',
-				author:'Siqi Zhuo',
-				description:'this is description This is another complete Spring MVC tutorial which ' +
-				'accepts file on Upload form and copy it to specific folder on “Submit” event. ' +
-				'As usual we have a dependency on Hello World Spring MVC Example.',
-				type:'3',
-				impact:'huge impact This is another complete Spring MVC tutorial which ' +
-				'accepts file on Upload form and copy it to specific folder on “Submit” ' +
-				'event. As usual we have a dependency on Hello World Spring MVC Example.',
-				imgsSrc:[],
-				files:['http://fujian.86516.com/forum/201209/28/16042484m9y9izwbrwuixj.jpg',
-					'http://fujian.86516.com/forum/201209/28/16042484m9y9izwbrwuixj.jpg'],
-				pjState:'2'
-			}
-			return test_idea;
+		var get_idea=function(id,success,error){
+			$.ajax({
+				url: "ajax/idea/"+id,
+				method: "GET",
+				contentType: "application/json; charset=utf-8",
+				success: function (data) {
+					success(data);
+				}
+			});
 		}
 		return{
 			idea:idea,
@@ -297,5 +290,3 @@ service.factory("authenticationSvc", function($http, $q, $location, $rootScope) 
 		getUserInfo: getUserInfo
 	}
 });
-
-

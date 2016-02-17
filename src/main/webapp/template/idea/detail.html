@@ -10,8 +10,8 @@
                 <div class="header-content">
                     <h3 class="title"><strong>{{idea.title}}</strong></h3>
                     <div class="create-info">
-                        <p class="creator">{{idea.author}}</p>
-                        <p class="create-time">2016.01.10 10:01</p>
+                        <p class="creator">{{idea.firstname}}</p>
+                        <p class="create-time">{{idea.createdate}}</p>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <ul rn-carousel  rn-carousel-index="carouselIndex" class="image">
                     <li  ng-repeat="image in idea.files track by $index">
                         <div ng-style="{'background-image': 'url(' + image + ')'}">
-                            <div rn-carousel-indicators ng-if="idea.files.length > 1" slides="idea.files" rn-carousel-index="carouselIndex"></div>
+                            <div rn-carousel-indicators ng-if="idea.images.length > 1" slides="idea.images" rn-carousel-index="carouselIndex"></div>
                         </div>
                     </li>
                 </ul>
