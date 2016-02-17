@@ -1259,6 +1259,7 @@ input.tiny {
     padding-left:4em;
     border-top:1px solid #efefef;
     color:#E2A393;
+	clear:both;
 }
 #user-info .coin  .fa-stack{
     color:#ECD942;
@@ -1306,3 +1307,36 @@ input.tiny {
 *   user info end
 *******************************************************************
 */
+
+/*MODAL*/
+.my-modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index:9999;
+}
+.my-modal .modal-inner {
+  background: #fff;
+  position: absolute;
+  width: 60%;
+  height: 30%;
+  left: 20%;
+  top: 35%;
+  padding: 5px;
+}
+.my-modal .modal-inner h3 {
+  text-align: center;
+}
+.my-modal .modal-inner .footer {
+  position: absolute;
+  bottom: 10px;
+  right: 5px;
+  left: 5px;
+}
+.my-modal .modal-inner .footer a {
+  float: right;
+  margin-right: 5px;
+}

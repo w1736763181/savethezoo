@@ -14,7 +14,10 @@ var app = angular.module('myApp', [
 app.config(['$compileProvider', function ($compileProvider) {
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|blob):/);
 }]);
-app.run(['$rootScope', '$location', '$window', function ($rootScope, $location, $window, $state) {
+app.run(['$rootScope', '$location', '$window', 'userModel', function ($rootScope, $location, $window, userModel) {
+	//these relating urls need login
+	var REG_CTRL_NEED_LOGIN = /histroy|add_list|message|user\/me|create|preview/i;
+	
     $rootScope.go = function (path, pageAnimationClass) {
 
         if (typeof(pageAnimationClass) === 'undefined') {
@@ -39,10 +42,12 @@ app.run(['$rootScope', '$location', '$window', function ($rootScope, $location, 
 			fn.apply(null,args);
 		}
 	}
-	$rootScope.$on('$routeChangeSuccess', function(e,to,toP,from,fromP){
-		//console.log(1)
-        //$rootScope.pageAnimationClass = 'slideRight';
-	});
+	$rootScope.$on('$locationChangeStart', function(){
+		if(REG_CTRL_NEED_LOGIN.test($location.path()) && !userModel.isLogin){
+			var params=$location.path();
+			$location.path('user/login').search({url:params});
+		}
+	})
 
     $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj) {
         if (eventObj.authenticated === false) {

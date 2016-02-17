@@ -1,21 +1,20 @@
 var ideaCtrl = angular.module('ideaController', []);
 
-ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, ideaService) {
+ideaCtrl.controller('ideaCreateCtrl', ['$scope','ideaModel', 'categoryModel', function ($scope, ideaService, cate) {
         var idea = ideaService.getIdea();
-        idea.uid = $scope.user.id;
+		
         $scope.ideaType = '';
         $scope.selectedAnimal = 1;
-        $scope.categoryList = ideaService.getCategoryList();
-        $scope.$on("cagtegoryList:fetched", function(event, data) {
-            $scope.categoryList = data;
-        });
-
+        cate.getCategoryList(function(d){
+			$scope.categoryList = d;
+		});
+		
         $scope.selectAndGo = function(){
             idea.category = $scope.categoryList[$scope.selectedAnimal].animal;
             $scope.go("idea/create_step1", "slideLeft");
         }
     }])
-    .controller('ideaCreate1Ctrl', ['$scope', 'createIdea', function ($scope, ideaService) {
+    .controller('ideaCreate1Ctrl', ['$scope', 'ideaModel', function ($scope, ideaService) {
         $scope.title = "";
         var idea = ideaService.getIdea();
         $scope.checkAndDo = function (fn, a, b) {
@@ -49,7 +48,7 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
             });
         }, 500);
     }])
-    .controller('ideaCreate2Ctrl', ['$scope', 'createIdea', function ($scope, ideaService) {
+    .controller('ideaCreate2Ctrl', ['$scope', 'ideaModel', function ($scope, ideaService) {
         var idea = ideaService.getIdea();
         $scope.description = "";
         $scope.checkAndDo = function (fn, a, b) {
@@ -83,7 +82,7 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
             });
         }, 500);
     }])
-    .controller('ideaCreate3Ctrl', ['$scope', 'createIdea', function ($scope, ideaService) {
+    .controller('ideaCreate3Ctrl', ['$scope', 'ideaModel', function ($scope, ideaService) {
         var idea = ideaService.getIdea();
         $scope.businessImpact = "";
         $scope.checkAndDo = function (fn, a, b) {
@@ -118,14 +117,17 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
         }, 500);
 
     }])
-    .controller('ideaCreate4Ctrl', ['$scope', 'createIdea', function ($scope, ideaService) {
+    .controller('ideaCreate4Ctrl', ['$scope', 'ideaModel', 'userModel', function ($scope, ideaService, user) {
         $scope.idea = ideaService.getIdea();
-        $scope.idea.image=[];
+		
         $scope.remove=function(idx){
             $scope.idea.image.splice(idx,1);
         }
 
-        $scope.submit = ideaService.submit();
+        $scope.submit = function(){
+			ideaService.submit(user.user.id,function(){	
+			});
+		}
 
         $scope.add=function(file){
             console.log(file)
@@ -145,8 +147,17 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
             reader.readAsDataURL(file);
         }
     }])
-    .controller('ideaListCtrl',['$scope','ideaListModel',function($scope,list){
-        $scope.ideaList=list.get();
+    .controller('ideaListCtrl',['$scope','ideaModel', 'userModel',function($scope,idea,user){
+		var id=user.user.id;
+		//not login and id=0;
+		if(id==undefined){
+			id=0;
+		}
+		idea.get_list(id,function(data){
+			$scope.ideaList=data;	
+		},function(err){
+			
+		});
         $scope.listType=1;
         $scope.$evalAsync(function(){
             $('#datetimepicker6').datetimepicker({
