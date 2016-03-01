@@ -1,13 +1,12 @@
 <div id="project-create-step1" class="pages idea-create">
-	<nav nav-top data-left="<" data-right="Next" data-center="Create Project"
+	<nav nav-top data-left="back" data-right="Next" data-center="Create Project"
 	     fn-left="go()" fn-right="checkAndDo(go, '/project/create_step2', 'slideLeft')"></nav>
 	<div class="page-content">
 		<p class="step-img"></p>
 		<h2>Project Title</h2>
-
 		<form id="createForm"name="createForm" role="form" class="form-horizontal">
 			<div class="form-group" style="margin-bottom: 5px; width: 95%; margin-left: 1%">
-				<input type="text" id="title" ng-model="title" name="title" required class="form-control" />
+				<input type="text" id="title" ng-model="project.title" name="title" required class="form-control" />
 			</div>
 		</form>
 		<p>An attractive project title can help you get more attention</p>

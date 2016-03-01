@@ -12,17 +12,18 @@ public class ProjectEntity {
     private Integer id;
     private String title;
     private String description;
-    private String fromdate;
-    private String todate;
+    private Date startdate;
+    private Date todate;
     private Date createddate;
     private Integer status;
     private Integer likes;
     private Integer imagenum;
     private Integer uid;
-    private Integer cid;
+    private String category;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public Integer getId() {
         return id;
     }
@@ -52,32 +53,32 @@ public class ProjectEntity {
     }
 
     @Basic
-    @Column(name = "fromdate", nullable = true, length = 50)
-    public String getFromdate() {
-        return fromdate;
+    @Column(name = "startdate", nullable = true, length = 50)
+    public Date getStartdate() {
+        return startdate;
     }
 
-    public void setFromdate(String fromdate) {
-        this.fromdate = fromdate;
+    public void setStartdate(Date fromdate) {
+        this.startdate = fromdate;
     }
 
     @Basic
     @Column(name = "todate", nullable = true, length = 50)
-    public String getTodate() {
+    public Date getTodate() {
         return todate;
     }
 
-    public void setTodate(String todate) {
+    public void setTodate(Date todate) {
         this.todate = todate;
     }
 
     @Basic
-    @Column(name = "createddate", nullable = true)
-    public Date getCreateddate() {
+    @Column(name = "createDate", nullable = true)
+    public Date getCreateDate() {
         return createddate;
     }
 
-    public void setCreateddate(Date createddate) {
+    public void setCreateDate(Date createddate) {
         this.createddate = createddate;
     }
 
@@ -121,7 +122,7 @@ public class ProjectEntity {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (fromdate != null ? !fromdate.equals(that.fromdate) : that.fromdate != null) return false;
+        if (startdate != null ? !startdate.equals(that.startdate) : that.startdate != null) return false;
         if (todate != null ? !todate.equals(that.todate) : that.todate != null) return false;
         if (createddate != null ? !createddate.equals(that.createddate) : that.createddate != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
@@ -136,7 +137,7 @@ public class ProjectEntity {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (fromdate != null ? fromdate.hashCode() : 0);
+        result = 31 * result + (startdate != null ? startdate.hashCode() : 0);
         result = 31 * result + (todate != null ? todate.hashCode() : 0);
         result = 31 * result + (createddate != null ? createddate.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
@@ -156,12 +157,13 @@ public class ProjectEntity {
     }
 
     @Basic
-    @Column(name = "cid", nullable = true)
-    public Integer getCid() {
-        return cid;
+    @Column(name = "category", nullable = true)
+    public String getCategory() {
+        return category;
     }
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
+    public void setCategory(String cid) {
+        this.category = cid;
     }
+
 }

@@ -1,9 +1,12 @@
 package com.sap.mi.innovation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javafx.beans.DefaultProperty;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by I309891 on 1/27/2016.
@@ -21,6 +24,9 @@ public class IdeaEntity {
     private Integer likes = 0;
     private Date createDate;
     private Integer images = 0;
+    private Integer pid;
+
+    private UsersEntity user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,11 +81,11 @@ public class IdeaEntity {
 
     @Basic
     @Column(name = "description")
-    public String getDiscription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDiscription(String discription) {
+    public void setDescription(String discription) {
         this.description = discription;
     }
 
@@ -122,6 +128,28 @@ public class IdeaEntity {
 
     public void setImages(Integer images) {
         this.images = images;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
+    @JoinColumn(name = "uid", referencedColumnName="id", insertable=false , updatable=false)
+    public UsersEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UsersEntity usersEntity) {
+        this.user = usersEntity;
+    }
+
+
+    @Basic
+    @Column(name = "pid")
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
     @Override

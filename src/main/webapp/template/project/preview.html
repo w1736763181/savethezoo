@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div id="project-preview" class="pages">
+    <!--<nav nav-top data-left="back" data-center="Preview" data-right="Submit"-->
+         <!--fn-left = "go()" fn-right="generateProject()"></nav>-->
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a ng-click="go()" class="btn pull-left"><i class="fa fa-angle-left"></i></a>
+            <h4 class="center">Preview</h4>
+            <a ng-click="generateProject()"  ladda-button="loading.rightBt" data-style="zoom-out" class="btn pull-right ladda-button" >
+                <span class="ladda-label">submit</span></a>
 
-</body>
-</html>
+        </div>
+    </div>
+    <div class="page-content">
+        <div>
+            <div class="detail_header">
+                <div class="header-image">
+                    <img class="img-circle center-block" ng-src="img/head.png" />
+                </div>
+                <div class="header-content">
+                    <h3 class="title"><strong>{{project.title}}</strong></h3>
+                    <div class="create-info">
+                        <p class="creator">{{user.firstname}} {{user.lastname}}</p>
+                        <p class="create-time">{{project.createdate}}</p>
+                        <p class="status" ng-if="project.status == 0">Not start</p>
+                        <p class="status" ng-if="project.status == 1">Design Finish</p>
+                        <p class="status" ng-if="project.status == 2">Ready For Demo</p>
+                    </div>
+                </div>
+            </div>
+            <div class="detail_pics">
+                <ul rn-carousel  rn-carousel-index="carouselIndex" class="image">
+                    <li  ng-repeat="image in project.image track by $index">
+                        <div ng-style="{'background-image': 'url(' + image + ')'}">
+                            <div rn-carousel-indicators ng-if="idea.files.length > 1" slides="idea.files" rn-carousel-index="carouselIndex"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="detail-content">
+                <div class="block description">
+                    <h4 class="desclable">Description</h4>
+                    <p class="text desc">{{project.description}}</p>
+                </div>
+                <div class="block bi">
+                    <h4 class="bilable">Planed Period</h4>
+                    <p class="text bi">{{project.startdate}} - {{project.todate}}</p>
+                </div>
+                <div class="block ProjectMember">
+                    <h4 class="desclable">Project Member</h4>
+                    <div class="member" ng-repeat="user in users track by $index" >
+                        <img ng-src="{{user.head}}" class="img-circle" />
+                        <span style="position: absolute; ">{{user.firstname}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

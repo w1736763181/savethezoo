@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by I309891 on 1/6/2016.
@@ -29,25 +33,29 @@ import java.util.List;
 @RequestMapping(value = "user")
 public class UserController {
 
-    public static final String AVATAR_BASE = "img/head/";
-    public static final String DEFAULT_AVATAR = "img/head/default.png";
+    public static final String AVATAR_BASE = "img" + File.separator + "head" + File.separator;
+    public static final String DEFAULT_AVATAR = "img" + File.separator +"head" + File.separator + "default.png";
 
     // 自动装配
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ServletContext servletContext;
+
+
     // 用户管理
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<UsersEntity>> getAllUsers() {
         // 返回 pages 目录下的 userManage.jsp 页面
-        List<UsersEntity> userlsit = userRepository.findAll();
+        List<UsersEntity> userlsit = userRepository.findUserByAuth(0);
         ResponseEntity<List<UsersEntity>> res = new ResponseEntity<List<UsersEntity>>(userlsit, HttpStatus.OK);
         return res;
     }
 
     // 用户管理
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
-    public ResponseEntity<List<UsersEntity>> getAllUsers(@PathVariable int userid) {
+    public ResponseEntity<List<UsersEntity>> getUser(@PathVariable int userid) {
         // 返回 pages 目录下的 userManage.jsp 页面
         List<UsersEntity> userlsit = userRepository.findUserById(userid);
         ResponseEntity<List<UsersEntity>> res = new ResponseEntity<List<UsersEntity>>(userlsit, HttpStatus.OK);
@@ -129,16 +137,13 @@ public class UserController {
                 user = userRepository.saveAndFlush(user);
                 return new ResponseEntity<UsersEntity>(user, HttpStatus.OK);
             } else {
-                user.setHead(null);
+                headImage = headImage.replaceFirst("^data:image/[^;]*;base64,?","");
+                user.setHead(DEFAULT_AVATAR);
                 user = userRepository.saveAndFlush(user);
                 String path = AVATAR_BASE + user.getId().toString() + ".png";
-                File imgBase = new File(AVATAR_BASE);
-                if(!imgBase.exists()) {
-                    imgBase.mkdir();
-                }
+                String realPath = servletContext.getRealPath("/") + path;
                 BufferedImage file = ImageUtils.decodeToImage(headImage);
-                File destination = new File(path);
-
+                File destination = new File(realPath);
                 ImageIO.write(file, "png", destination);
                 user.setHead(path);
                 user = userRepository.saveAndFlush(user);
@@ -172,5 +177,26 @@ public class UserController {
                 return new ResponseEntity<UsersEntity>(loginUser, HttpStatus.OK);
             }
         }
+    }
+
+    //用户登录
+    @RequestMapping(value = "/login/validation", method = RequestMethod.POST)
+    public  ResponseEntity<Map<String, String>>loginValidate(@RequestParam(value = "email", required = true) String email,
+                                                             @RequestParam(value = "password", required = false) String password) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("valid", "true");
+        MultiValueMap responseMap = new LinkedMultiValueMap<String, String>();
+        List<UsersEntity> userLsit = userRepository.findUserByEmail(email);
+        if (userLsit.isEmpty()) {
+           map.put("valid", "false");
+        }
+        else if(password != null) {
+            UsersEntity loginUser = userLsit.get(0);
+            if (!password.equals(loginUser.getPassword())) {
+                map.put("valid", "false");
+            }
+        }
+        return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
+
     }
 }

@@ -26,31 +26,52 @@ router.config(['$routeProvider', function($routeProvider){
         })
         .when('/user/list', {
             controller : 'userListCtrl',
-            templateUrl : 'template/user/list.html'
+            templateUrl : 'template/user/list.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
         .when('/user/login', {
             controller : 'loginCtrl',
-            templateUrl : 'template/user/login.html'
+            templateUrl : 'template/user/login.html',
         })
         .when('/user/:id', {
             controller : 'userInfoCtrl',
-            templateUrl : 'template/user/info.html'
+            templateUrl : 'template/user/info.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
 		.when('/idea/create', {
             controller : 'ideaCreateCtrl',
-            templateUrl : 'template/idea/create.html'
-            //,
-            //resolve: {
-            //    auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
-            //        var usreInfo = authenticationSvc.getUserInfo();
-            //        if(usreInfo) {
-            //            return $q.when(usreInfo);
-            //        }
-            //        else {
-            //            return $q.reject({authenticated: false});
-            //        }
-            //    }]
-            //}
+            templateUrl : 'template/idea/create.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
 		})
 		.when('/idea/create_step1', {
             controller : 'ideaCreate1Ctrl',
@@ -70,11 +91,33 @@ router.config(['$routeProvider', function($routeProvider){
 		})
         .when('/idea/list', {
             controller : 'ideaListCtrl',
-            templateUrl : 'template/idea/list.html'
+            templateUrl : 'template/idea/list.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
         .when('/project/list', {
             controller : 'projectListCtrl',
-            templateUrl : 'template/project/list.html'
+            templateUrl : 'template/project/list.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
         .when('/project/create_step1', {
             controller : 'projectCreate1Ctrl',
@@ -93,20 +136,87 @@ router.config(['$routeProvider', function($routeProvider){
             templateUrl : 'template/project/create_step4.html'
         })
         .when('/project/create_step5', {
-            controller : 'projectCreate4Ctrl',
+            controller : 'projectCreate5Ctrl',
             templateUrl : 'template/project/create_step5.html'
         })
         .when('/project/create_step6', {
-            controller : 'projectCreate4Ctrl',
+            controller : 'projectCreate6Ctrl',
             templateUrl : 'template/project/create_step6.html'
+        })
+        .when('/project/add_user', {
+            controller : 'ProjectAddUserCtrl',
+            templateUrl : 'template/project/add_user.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
+        })
+        .when('/project/preview', {
+            controller : 'ProjectPreviewCtrl',
+            templateUrl : 'template/project/preview.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
+        })
+        .when('/project/:id', {
+            controller : 'projectDetailCtrl',
+            templateUrl : 'template/project/detail.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
         .when('/idea/preview', {
             controller : 'ideaPreviewCtrl',
-            templateUrl : 'template/idea/preview.html'
+            templateUrl : 'template/idea/preview.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
         .when('/idea/:id', {
             controller : 'ideaDetailCtrl',
-            templateUrl : 'template/idea/detail.html'
+            templateUrl : 'template/idea/detail.html',/*
+            resolve: {
+                auth: ["$q", "authenticationSvc", function($q, authenticationSvc){
+                    var usreInfo = authenticationSvc.getUserInfo();
+                    if(usreInfo) {
+                        return $q.when(usreInfo);
+                    }
+                    else {
+                        return $q.reject({authenticated: false});
+                    }
+                }]
+            }*/
         })
         .otherwise({
             redirectTo : 'homepage'

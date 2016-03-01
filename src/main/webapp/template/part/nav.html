@@ -7,11 +7,10 @@
             <div ng-switch-when="back">
                 <a ng-click="fnLeft()" ng-show="showLeft" class="btn pull-left"><i class="fa fa-angle-left"></i></a>
             </div>
-            <div ng-switch-when="<">
-                <a ng-click="fnLeft()" ng-show="showLeft" class="btn pull-left"><i class="fa fa-angle-left"></i></a>
-            </div>			
         </div>
         <h4 class="center">{{center}}</h4>
-        <a ng-click="fnRight()" ng-show="showRight" class="btn pull-right">{{right}}</a>
+        <a ng-click="fnRight()" ng-show="showRight" ladda-button="{{loading}}" data-style="zoom-out" class="btn pull-right ladda-button">
+            <span class="ladda-label">{{right}}</span></a>
+
     </div>
 </div>

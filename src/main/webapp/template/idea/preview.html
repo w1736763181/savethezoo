@@ -1,6 +1,15 @@
 <div id="idea-preview" class="pages">
-    <nav nav-top data-left="<" data-center="Preview" data-right="Submit"
-         fn-left = "go()" fn-right="submit()"></nav>
+    <!--<nav nav-top data-left="back" data-center="Preview" data-right="Submit"-->
+         <!--fn-left = "go()" fn-right="submit()"></nav>-->
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a ng-click="go()" class="btn pull-left"><i class="fa fa-angle-left"></i></a>
+            <h4 class="center">Preview</h4>
+            <a ng-click="submit()"  ladda-button="loading.rightBt" data-style="zoom-out" class="btn pull-right ladda-button" >
+                <span class="ladda-label">submit</span></a>
+
+        </div>
+    </div>
     <div class="page-content">
         <div>
             <div class="detail_header">
@@ -10,8 +19,8 @@
                 <div class="header-content">
                     <h3 class="title"><strong>{{idea.title}}</strong></h3>
                     <div class="create-info">
-                        <p class="creator">{{idea.author}}</p>
-                        <p class="create-time">{{now | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                        <p class="creator">{{user.firstname}} {{user.lastname}}</p>
+                        <p class="create-time">2016.01.10 10:01</p>
                     </div>
                 </div>
             </div>
@@ -36,6 +45,4 @@
             </div>
         </div>
     </div>
-	<div modal ng-show="show" class="my-modal" data-title="{{title}}" data-content="{{content}}" 
-	  fn-ok="fnOk()" data-ok="ok"></div>	
 </div>

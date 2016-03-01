@@ -13,46 +13,16 @@ public class IdeaModel {
     private String description;
     private Integer likes;
     private Integer uid;
-
-    public String getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(String createdate) {
-        this.createdate = createdate;
-    }
-
-    private String createdate;
-
-    public Integer getImages() {
-        return images;
-    }
-
-    public void setImages(Integer images) {
-        this.images = images;
-    }
-
+    private String lastname;
+    private java.sql.Date createdate;
     private Integer images;
-
-    public String getCategoryImage() {
-        return categoryImage;
-    }
-
-    public void setCategoryImage(String categoryImage) {
-        this.categoryImage = categoryImage;
-    }
-
     private String categoryImage;
+    private Integer voting;
+    private Integer status;
+    private String businessImpact;
+    private String category;
+    private Integer pid;
 
-    public Integer getIdeaid() {
-        return ideaid;
-    }
-
-    public void setIdeaid(Integer ideaid) {
-        this.ideaid = ideaid;
-    }
-
-    private Integer ideaid;
     public Integer getId() {
         return id;
     }
@@ -101,10 +71,75 @@ public class IdeaModel {
         this.uid = uid;
     }
 
+    public String getLastname() {
+        return lastname;
+    }
 
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
+    public java.sql.Date getCreatedate() {
+        return createdate;
+    }
 
+    public void setCreatedate(java.sql.Date createdate) {
+        this.createdate = createdate;
+    }
 
+    public Integer getImages() {
+        return images;
+    }
 
+    public void setImages(Integer images) {
+        this.images = images;
+    }
 
+    public String getCategoryImage() {
+        return categoryImage;
+    }
+
+    public void setCategoryImage(String categoryImage) {
+        this.categoryImage = categoryImage;
+    }
+
+    public Integer getVoting() {
+        return voting;
+    }
+
+    public void setVoting(Integer ideaid) {
+        this.voting = ideaid;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getBusinessImpact() {
+        return businessImpact;
+    }
+
+    public void setBusinessImpact(String businessImpact) {
+        this.businessImpact = businessImpact;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
 }

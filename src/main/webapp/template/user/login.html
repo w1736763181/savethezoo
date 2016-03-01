@@ -2,7 +2,9 @@
     <nav nav-top data-left="homepage" data-center="Login"
          fn-left="go('homepage', 'slideRight')"></nav>
     <div class="page-content">
-
+        <!--<div class="alert alert-danger" role="alert">-->
+            <!--Please Check your network!-->
+        <!--</div>-->
         <figure>
             <img class="user-head-center center-block img-circle" src="{{imgSrc}}" id="user_head"/>
         </figure>
@@ -24,13 +26,12 @@
                     </div>
                 </div>
             </form>
-            <button type="button" class="btn btn-success btn-block" ng-click="login(go)">Log In</button>
+            <button id="loginBt" type="button" class="btn btn-success btn-block ladda-button" ladda-button="loading.show" data-style="zoom-out" ng-click="login()">
+                <span class="ladda-label">Log In</span></button>
             <div class="div-forget">
                 <p><a ng-click="go('user/register_step1', 'slideLeft')" class="default-a"><strong>Register</strong></a></p>
-                <p><a ng-click="go('user/register_step1', 'slideLeft')" class="default-a"><strong>Forget Password?</strong></a></p>
+                <p><a ng-click="go('user/register_step1', 'slideLeft')" class="default-a"><strong>Forget Password?</strong><a></p>
             </div>
         </div>
     </div>
-	<div modal ng-show="show" class="my-modal" data-title="{{title}}" data-content="{{content}}" 
-	  fn-ok="fnOk()" data-ok="ok"></div>	
 </div>

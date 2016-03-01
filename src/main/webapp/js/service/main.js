@@ -5,16 +5,16 @@ service.constant('DEFAULT_AVATAR', 'img/head.png');
 service.factory('upload', ['$http', function($http) {
 	var upload=function(fd,cb){
 		$http.post('/pic',fd, {
-				withCredentials: true,
-				headers: {'Content-Type': undefined },
-				transformRequest: angular.identity
-			})
-			.success(function(data){
-				cb(data)
-			})
-			.error(function(err){
-				console.log(err)
-			})
+			withCredentials: true,
+			headers: {'Content-Type': undefined },
+			transformRequest: angular.identity
+		})
+		.success(function(data){
+			cb(data)
+		})
+		.error(function(err){
+			console.log(err)
+		})			
 	}
 
 	return {
@@ -63,42 +63,47 @@ service.factory('createIdea', function($q, $location, $rootScope) {
 	}
 
 	function fetchCategoryList() {
+
+	}
+
+	function submit(success, fail) {
+		$.ajax({
+			url: "ajax/idea/create",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(idea),
+			success: function(data) {
+				success(data);
+			},
+			error: function() {
+				fail();
+			}
+		});
+	}
+
+	function getCategoryList(success, fail){
+		if(categoryList) {
+			return categoryList;
+		}
 		$.ajax({
 			url: "ajax/category/",
 			method: "GET",
 			contentType: "application/json; charset=utf-8",
 			success: function (data) {
 				categoryList = data;
-				$rootScope.$broadcast('cagtegoryList:fetched', data);
+				success(data);
 			},
 			statusCode: {
 			}
 		});
-	}
-
-	function submit() {
-		$.ajax({
-			url: "ajax/idea/craete",
-			method: "POST",
-			data : idea,
-			success: function(data) {
-				$rootScope.$broadcast("idea:createSuccess", data);
-			}
-		});
-	}
-
-	function getCategoryList(){
-		if(categoryList) {
-			return categoryList;
-		}
-		fetchCategoryList();
 		return categoryList;
 	}
 
 	return {
 		getCategoryList : getCategoryList,
 		getIdea : getIdea,
-		subimt: submit
+		submit: submit
 	}
 });
 
@@ -137,123 +142,334 @@ service.factory("peopleModel", function() {
 	}
 });
 
-service.factory('ideaModel',[function(){
-		var idea={
-			title:'',
-			description:'',
-			type:'',
-			impact:'',
-			imgsSrc:[],
-			files:[],
-		}
-		var clear=function(){
-			idea.title="";
-			idea.description="";
-			idea.type="";
-			idea.impact="";
-			idea.imgsSrc.length=0;
-			idea.files.length=0;
-		}
-		return{
-			idea:idea,
-			clear:clear
-		}
-	}])
-	.factory('ideaListModel',function($rootScope){
-		//TEST
-		var temp_item={
-			title:'innovation gomification app',
-			id:66,
-			author:'lili',
-			authorLink:'/user/12',
-			like: 8,
-			description:'To create an environment and platform where employees can be creative and find',
-			src:'http://fujian.86516.com/forum/201209/28/16042484m9y9izwbrwuixj.jpg',
-			type:'img/category/4lion_idea.png',
-			date:'2016-01-19 16:22',
-			pjState:'2'
-		}
-		var ideaList;
-		var idea_list = function(success, error) {
-			$.ajax({
-				url: "ajax/idea?uid=2",
-				method: "GET",
-				contentType: "application/json; charset=utf-8",
-				success: function (data) {
-					success(data);
-				}
-			});
-		}
-		return {
-			get:idea_list
-		}
-	})
-	.factory('projectListModel', ['$rootScope',function($rootScope){
-		//TEST
-		var temp_item={
-			title:'innovation gomification app',
-			id:66,
-			author:'lili',
-			authorLink:'/user/12',
-			like: 8111,
-			description:'fdsafdsfds fda fdsa fdsaf  da f dsa f dsf a dsf ds f dsa f dsa f dsaf ads fds ',
-			src:'http://fujian.86516.com/forum/201209/28/16042484m9y9izwbrwuixj.jpg',
-			type:'img/category/5lion_designfinish.png',
-			date:'2016-01-19 16:22',
-			pjState:'4'
-		}
+service.factory('ideaModel',['$rootScope',function($rootScope){
 
-		var get_list=function(){
-			return [
-				temp_item,
-				angular.copy(temp_item),
-				angular.copy(temp_item),
-				angular.copy(temp_item),
-				angular.copy(temp_item)
-			];
-		}
+	function getIdea(id, success, fail) {
+		$.ajax({
+			url: "ajax/idea/" + id ,
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify($rootScope.user),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
 
-		return {
-			get:get_list
+	function getIdeasByUser(user, success, fail) {
+		$.ajax({
+			url: "ajax/idea/me",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(user),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+	var idea_list = function(success, error) {
+		$.ajax({
+			url: "ajax/idea",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify($rootScope.user),
+			success: function (data) {
+				success(data);
+			}
+		});
+	};
+	var like = function(ideaid, success, error) {
+		var voting = {
+			uid: $rootScope.user.id,
+			ideaid : ideaid
 		}
-	}])
-	.factory('ideaModel',[function($routeParams){
-		var idea={
-			title:'',
-			description:'',
-			type:'',
-			impact:'',
-			imgsSrc:[],
-			files:[],
-		}
-		var clear=function(){
-			idea.title="";
-			idea.description="";
-			idea.type="";
-			idea.impact="";
-			idea.imgsSrc.length=0;
-			idea.files.length=0;
-		}
+		$.ajax({
+			url: "ajax/idea/voting",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(voting),
+			success: function(data) {
+				success(data);
+			}
+		});
+	};
 
-		var get_idea=function(id,success,error){
-			$.ajax({
-				url: "ajax/idea/"+id,
-				method: "GET",
-				contentType: "application/json; charset=utf-8",
-				success: function (data) {
-					success(data);
-				}
-			});
+	var addComment = function(comment, ideaid, success, fail) {
+		var temp = {
+			uid: $rootScope.user.id,
+			ideaid : ideaid,
+			text: comment
 		}
-		return{
-			idea:idea,
-			clear:clear,
-			get:get_idea
+		$.ajax({
+			url: "ajax/idea/comment",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(temp),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+
+	var getComments = function(ideaid, success, fail) {
+		$.ajax({
+			url: "ajax/idea/" + ideaid + "/comment",
+			method: "GET",
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+
+	var approve = function(ideaModel, success, error) {
+
+		$.ajax({
+			url: "ajax/idea/approve",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(ideaModel),
+			success: function(data) {
+				success(data);
+			}
+		});
+	};
+	return {
+		like : like,
+		getIdeaList : idea_list,
+		getIdea : getIdea,
+		approve : approve,
+		getIdeasByUser : getIdeasByUser,
+		comment: addComment,
+		getComments: getComments
+	}
+}]);
+
+service.factory('projectModel',['$rootScope',function($rootScope){
+	var project = {};
+	project.member = [];
+	var users = [];
+	var ideaModel = {};
+
+	var clear = function() {
+		project = {};
+		project.member = [];
+		users = [];
+		ideaModel = {};
+	}
+
+	var addPeople = function(ids, selectedUsers){
+		for(var i = 0; i < ids.length; i++) {
+			var index = project.member.indexOf(ids[i]);
+			if(index < 0) {
+				project.member.push(ids[i]);
+				users.push(selectedUsers[i]);
+			}
 		}
-	}]);
-service.factory("authenticationSvc", function($http, $q, $location, $rootScope) {
+	}
+
+	var addMember = function(pid, success, fail) {
+		$.ajax({
+			url: "ajax/project/" + pid + "/addMember/",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(project),
+			success: function(data) {
+				success(data);
+			},
+			error: function(jqXhR, textStatus) {
+				fail();
+			}
+		});
+	}
+
+	var generateProject = function(success, fail) {
+		project.uid = ideaModel.uid;
+		$.ajax({
+			url: "ajax/idea/generate/" + ideaModel.id,
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(project),
+			success: function(data) {
+				success(data);
+			},
+			error: function(jqXhR, textStatus) {
+				fail();
+			}
+		});
+	}
+
+	var getProject = function() {
+		return project;
+	}
+
+	var getUsers = function() {
+		return users;
+	}
+
+	var setIdeaModel = function(idea) {
+		ideaModel = idea;
+	}
+
+	function getProjectFromRemote(id, success, fail) {
+		$.ajax({
+			url: "ajax/project/" + id ,
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify($rootScope.user),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+	var project_list = function(success, error) {
+		$.ajax({
+			url: "ajax/project",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify($rootScope.user),
+			success: function (data) {
+				success(data);
+			}
+		});
+	};
+
+	function getProjectByUser(user, success, fail) {
+		$.ajax({
+			url: "ajax/project/me",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(user),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+
+	var like = function(pid, success, error) {
+		var voting = {
+			uid: $rootScope.user.id,
+			pid : pid
+		}
+		$.ajax({
+			url: "ajax/project/voting",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(voting),
+			success: function(data) {
+				success(data);
+			}
+		});
+	};
+
+	var addComment = function(comment, pid, success, fail) {
+		var temp = {
+			uid: $rootScope.user.id,
+			pid : pid,
+			text: comment
+		}
+		$.ajax({
+			url: "ajax/project/comment",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(temp),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+
+	var getMembers = function(pid, success, fail) {
+		$.ajax({
+			url: "ajax/project/" + pid + "/member",
+			method: "GET",
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+
+	var getComments = function(pid, success, fail) {
+		$.ajax({
+			url: "ajax/project/" + pid + "/comment",
+			method: "GET",
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
+
+	var updateStatus = function(projectModel) {
+		$.ajax({
+			url: "ajax/project/updateSatus",
+			method: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data : JSON.stringify(projectModel),
+			success: function(data) {
+
+			}
+		});
+	}
+
+	return {
+		getProject : getProject,
+		addPeople : addPeople,
+		getUsers : getUsers,
+		setIdea : setIdeaModel,
+		generateProject : generateProject,
+		clear : clear,
+		like : like,
+		getProjectList : project_list,
+		getPJ : getProjectFromRemote,
+		getProjectByUser : getProjectByUser,
+		comment: addComment,
+		getComments: getComments,
+		getMember : getMembers,
+		updateStatus : updateStatus,
+		addMember : addMember
+	}
+}]);
+
+service.factory("statSvc", function() {
+	var getStat = function(success, fail) {
+		$.ajax({
+			url: "ajax/stat",
+			method: "GET",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function (data) {
+				success(data);
+			},
+			error: function(jqXhR, textStatus) {
+				fail();
+			}
+		});
+	}
+
+	return {
+		getStat : getStat
+	};
+});
+
+service.factory("authenticationSvc", function($http, $q, $location, $rootScope, $cookies) {
 	var userInfo;
-	function login(email, password) {
+	function login(email, password, success, fail) {
 		var user = {
 			email : email,
 			password : password
@@ -267,21 +483,33 @@ service.factory("authenticationSvc", function($http, $q, $location, $rootScope) 
 			success: function (data) {
 				userInfo = data;
 				$rootScope.user = data;
-				$location.path("homepage")
-				$rootScope.$digest();
+        $cookies['user']=email+',,,'+password;
+				success && (success(data));
 			},
-			statusCode: {
-				401: function () {
-					alert("error");
-				}
+			error: function(jqXhR, textStatus) {
+				fail && (fail());
 			}
 		});
 	}
 	function logout() {
 		userInfo = null;
+    delete $cookies['user'];
+		localStorage.removeItem("userInfo");
 	}
 
 	function getUserInfo() {
+		//if(userInfo == null) {
+		//	//userInfo = JSON.parse(localStorage.getItem("userInfo"));
+		//	//login(
+		//	//	userInfo.email,
+		//	//	userInfo.password,
+		//	//	function(data){},
+		//	//	function() {
+		//	//		$rootScope.go("/user/login", 'slideLeft');
+		//	//		$rootScope.$apply();
+		//	//	}
+		//	//)
+		//}
 		return userInfo;
 	}
 	return {
@@ -290,3 +518,5 @@ service.factory("authenticationSvc", function($http, $q, $location, $rootScope) 
 		getUserInfo: getUserInfo
 	}
 });
+
+

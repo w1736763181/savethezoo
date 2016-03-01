@@ -1,76 +1,96 @@
 <div id="user-info" class="pages">
-    <nav nav-top data-left="back" data-center="{{user.firstname}} {{user.lastname}}"
-         fn-left="go()"></nav>
+    <nav nav-top data-left="{{left}}" data-center="{{userModel.firstname}} {{userModel.lastname}}"
+         fn-left="fnleft()"></nav>
     <div class="page-content">
         <div class="profile">
             <div class="img">
-                <img ng-src={{user.head}} class="img-circle"/>
+                <img ng-src={{userModel.head}} class="img-circle"/>
             </div>
             <div class="txt">
                 <h5>
-                    <strong>{{user.firstname}} {{user.lastname}}</strong>
+                    <strong>{{userModel.firstname}} {{userModel.lastname}}</strong>
                 </h5>
-                <h6 class="dep">{{user.department}}</h6>
+                <h6 class="dep">{{userModel.department}}</h6>
                 <p class="contact">
-                    <i class="fa fa-envelope"></i>{{user.email}}
-                    <i class="fa fa-mobile-phone"></i>{{user.phone}}
+                    <i class="fa fa-envelope"></i>{{userModel.email}}
+                    <i class="fa fa-mobile-phone"></i>{{userModel.phone}}
                 </p>
             </div>
         </div>
-        <p class="coin" ng-click="go('/user/coin_histroy','slideLeft')" ng-show="userType">
-				<span class="fa-stack">
-				  <i class="fa fa-circle fa-stack-2x"></i>
-				  <i class="fa fa-dollar fa-stack-1x fa-inverse"></i>
-				</span>
-            {{user.coin}}
-            <i class="fa fa-chevron-right"></i>
-        </p>
-        <p class="coin message" ng-click="go('/user/message','slideLeft')" ng-show="userType">
-            <i class="fa fa-bell fa-2x"></i>
-            <!--{{user.messageNum}}-->
-            1
-            <i class="fa fa-chevron-right"></i>
-        </p>
-        <br>
+        <!--<p class="coin" ng-click="go('/user/coin_histroy','slideLeft')" ng-show="userType">-->
+				<!--<span class="fa-stack">-->
+				  <!--<i class="fa fa-circle fa-stack-2x"></i>-->
+				  <!--<i class="fa fa-dollar fa-stack-1x fa-inverse"></i>-->
+				<!--</span>-->
+            <!--{{userModel.coin}}-->
+            <!--<i class="fa fa-chevron-right"></i>-->
+        <!--</p>-->
+        <!--<p class="coin message" ng-click="go('/user/message','slideLeft')" ng-show="userType">-->
+            <!--<i class="fa fa-bell fa-2x"></i>-->
+            <!--&lt;!&ndash;{{user.messageNum}}&ndash;&gt;-->
+            <!--1-->
+            <!--<i class="fa fa-chevron-right"></i>-->
+        <!--</p>-->
+
         <ul class="tabs">
-            <li ng-click="changeType(2)" ng-class="{active:type==2}">Idae-2</li>
-            <li ng-click="changeType(1)" ng-class="{active:type==1}">Project-1</li>
+            <li ng-click="changeType(2)" ng-class="{active:type==2}">Idea</li>
+            <li ng-click="changeType(1)" ng-class="{active:type==1}">Project</li>
         </ul>
-        <div class="list-item" ng-repeat="item in list track by $index">
+        <div class="list-item" ng-repeat="item in list | filter: dateFilter">
             <div class="item-h">
                 <div class="avatar">
-                    <img ng-src="{{item.type}}"/>
+                    <img ng-src="{{item.categoryImage}}" class="img-rounded center-block"/>
                 </div>
-                <h4 ng-click="go('/idea/{{item.id}}','slideLeft')">{{item.title}}</h4>
-                <p>
-                    <a class="author" ng-click="go('/user/{{item.authorLink}}','slideLeft')">{{item.author}}</a>
-                    <i ng-class="{true:'fa fa-heart', false:'fa fa-heart-o'}[item.isVoted]"
-                       ng-click="toggleVote($index)">
-                        <span class="list_likes">{{item.like}}</span>
-                    </i>
-                </p>
+                <div class="item-h-text">
+                    <h4 ng-click="go('/idea/{{item.id}}','slideLeft')"><strong>{{item.title}}</strong></h4>
+                    <p>
+                        <a class="author" ng-click="go('/user/{{item.uid}}','slideLeft')">{{item.lastname}} {{item.firstname}}</a>
+                        <i ng-if="item.voting != null" class="like">
+                            <i class="fa fa-heart">{{item.likes}}</i>
+                        </i>
+                        <i ng-if="item.voting == null" class="like">
+                            <i class="fa fa-heart-o" ng-click="like({{item.id}})">{{item.likes}}</i>
+                        </i>
+                    </p>
+                </div>
             </div>
             <div class="img">
-                <img ng-click="go('/idea/{{item.id}}','slideLeft')" ng-src="{{item.src}}"/>
+                <img ng-click="go('/{{link}}/{{item.id}}','slideLeft')" ng-src="img/{{link}}/{{item.id}}/0.png" onerror="javascript:this.src='img/idea/default.jpg';"/>
                 <p class="description">
                     {{item.description}}
                 </p>
             </div>
-            <p class="date">
-                {{item.date}}
-					<span ng-switch="item.pjState">
+            <p class="date idea-date" ng-if="type == 2">
+                {{item.createdate}}
+					<span ng-switch="item.status">
+						<span ng-switch-when="0">
+							<a class="todo" ng-if="user.auth == 1" ng-click="approve({{item}})">Approve Project</a>
+						</span>
 						<span ng-switch-when="1">
-							<a class="todo">Approve Project</a>
+                            <a class="todo" ng-if="user.auth == 1">Approved</a>
+							<a class="todo" ng-if="user.id == item.uid" ng-click="generateProject({{item}})">Generate Project</a>
 						</span>
 						<span ng-switch-when="2">
-							<a class="todo">Generate Project</a>
-						</span>
-						<span ng-switch-when="3">
 							<a class="done">Project</a>
 						</span>
 					</span>
             </p>
+            <p class="date project-date" ng-if="type == 1">
+                {{item.createDate}}
+                    <span ng-switch="item.status">
+                        <span ng-switch-when="0">
+							<a class="todo">Not Start</a>
+						</span>
+						<span ng-switch-when="1">
+							<a class="todo">Design Finish</a>
+						</span>
+						<span ng-switch-when="2">
+							<a class="todo">Ready for Demo</a>
+						</span>
+					</span>
+            </p>
         </div>
+
     </div>
     <p class="list-bottom"></p>
 </div>

@@ -1,13 +1,13 @@
 <div id="project-create-step5" class="pages idea-create">
-	<nav nav-top data-left="<" data-right="Submit" data-center="Create Project"
-		 fn-left="go()" fn-right=""></nav>
+	<nav nav-top data-left="back" data-right="Next" data-center="Create Project"
+		 fn-left="go()" fn-right="go('project/create_step6','slideLeft')"></nav>
 	<div class="page-content">
 		<p class="step-img"></p>
 		<p class="step-title">Upload Picture</p>
 		<p class="step-desrcip">You can add the picture for your project to make it vivid and help the others get a better understanding.</p>
 		<div class="add-pic">
 			<div class="imgs">
-				<div class="img" ng-repeat="img in idea.imgsSrc track by $index">
+				<div class="img" ng-repeat="img in project.image track by $index">
 					<img ng-src="{{img}}" />
 					<span class="close glyphicon glyphicon-remove" ng-click="remove($index)"></span>
 				</div>

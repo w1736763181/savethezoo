@@ -1,16 +1,22 @@
 var ideaCtrl = angular.module('ideaController', []);
 
-ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, ideaService) {
+ideaCtrl.controller('ideaCreateCtrl', ['$scope', 'createIdea', function ($scope, ideaService) {
         var idea = ideaService.getIdea();
         idea.uid = $scope.user.id;
         $scope.ideaType = '';
         $scope.selectedAnimal = 1;
-        $scope.categoryList = ideaService.getCategoryList();
-        $scope.$on("cagtegoryList:fetched", function(event, data) {
-            $scope.categoryList = data;
-        });
+        $scope.categoryList = ideaService.getCategoryList(
+            function (data) {
+                $scope.categoryList = data;
+                $scope.$digest();
+            },
+            function (msg) {
 
-        $scope.selectAndGo = function(){
+            }
+        );
+
+
+        $scope.selectAndGo = function () {
             idea.category = $scope.categoryList[$scope.selectedAnimal].animal;
             $scope.go("idea/create_step1", "slideLeft");
         }
@@ -120,20 +126,18 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
     }])
     .controller('ideaCreate4Ctrl', ['$scope', 'createIdea', function ($scope, ideaService) {
         $scope.idea = ideaService.getIdea();
-        $scope.idea.image=[];
-        $scope.remove=function(idx){
-            $scope.idea.image.splice(idx,1);
+        $scope.idea.image = [];
+        $scope.remove = function (idx) {
+            $scope.idea.image.splice(idx, 1);
         }
 
-        $scope.submit = ideaService.submit();
-
-        $scope.add=function(file){
+        $scope.add = function (file) {
             console.log(file)
         }
 
-        $scope.change=function(e){
-            var file=e.target.files[0];
-            if(!file){
+        $scope.change = function (e) {
+            var file = e.target.files[0];
+            if (!file) {
                 return;
             }
             var reader = new FileReader();
@@ -145,36 +149,158 @@ ideaCtrl.controller('ideaCreateCtrl', ['$scope','createIdea', function ($scope, 
             reader.readAsDataURL(file);
         }
     }])
-    .controller('ideaListCtrl',['$scope','ideaListModel',function($scope,list){
-        list.get(function(data) {
+    .controller('ideaListCtrl', ['$scope', 'ideaModel', 'projectModel', function ($scope, ideaModel, projectModel) {
+        ideaModel.getIdeaList(function(data) {
             $scope.ideaList = data;
             $scope.$digest();
-        }, function(){});
+        });
+        $scope.listType = 1;
+        
+        $scope.dateFilter = function (item) {
+            if($scope.minDate && moment(item.createdate, "YYYY-MM-DD") <  moment($scope.minDate, "YYYY-MM-DD")) {
+                return false;
+            }
+            if($scope.maxDate && moment(item.createdate, "YYYY-MM-DD") > moment($scope.maxDate, "YYYY-MM-DD")) {
+                return false;
+            }
+            return true;
+        }
 
-        $scope.listType=1;
         $scope.$evalAsync(function(){
             $('#datetimepicker6').datetimepicker({
-                    format: 'YYYY.MM.DD'
+                    format: 'YYYY.MM.DD',
+                    useCurrent: false,
+                    widgetPositioning: {
+                        horizontal: 'left',
+                        vertical: 'bottom'
+                    }
                 }
             );
             $('#datetimepicker7').datetimepicker({
                 format: 'YYYY.MM.DD',
-                useCurrent: false //Important! See issue #1075
+                useCurrent: false,
+                widgetPositioning: {
+                horizontal: 'right',
+                    vertical: 'bottom'
+                }
             });
             $("#datetimepicker6").on("dp.change", function (e) {
                 $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                $scope.minDate = e.date.format('YYYY-MM-DD');
+                $scope.$apply();
             });
             $("#datetimepicker7").on("dp.change", function (e) {
                 $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                $scope.maxDate = e.date.format('YYYY-MM-DD');
+                $scope.$apply();
             });
         }, 500);
+
+
+        $scope.like = function(item) {
+            ideaModel.like(item.id, function(data) {
+                item.voting = 'vote';
+                item.likes = item.likes + 1;
+                $scope.$digest();
+                //ideaModel.getIdeaList(function(data) {
+                //    $scope.ideaList = data;
+                //    $scope.$digest();
+                //});
+            }, function () {
+                
+            })
+        }
+
+        $scope.approve = function(idea) {
+            ideaModel.approve(idea, function(data) {
+                ideaModel.getIdeaList(function(data) {
+                    $scope.ideaList = data;
+                    $scope.$digest();
+                });
+            }, function () {
+
+            })
+        }
+
+        $scope.generateProject = function(idea) {
+            projectModel.clear();
+            var project = projectModel.getProject();
+            project.createdate = moment().format("YYYY.MM.DD");
+            project.category = idea.category;
+            projectModel.setIdea(idea);
+            $scope.go('/project/create_step1','slideLeft');
+        }
     }])
-    .controller('ideaDetailCtrl', ['$scope', 'ideaModel', '$routeParams', function ($scope, idea, $routeParams) {
-        idea.get($routeParams.id,function(data){
+    .controller('ideaDetailCtrl', ['$scope', 'ideaModel', '$routeParams', function ($scope, ideaModel, $routeParams) {
+        var id = $routeParams.id;
+        ideaModel.getIdea(id, function(data) {
             $scope.idea = data;
             $scope.$digest();
-        },function(){});
+        }, function(){
+
+        });
+
+        $scope.like = function() {
+            ideaModel.like($scope.idea.id, function(data) {
+                ideaModel.getIdea(id, function(data) {
+                    $scope.idea = data;
+                    $scope.$digest();
+                });
+            }, function () {
+
+            })
+        };
+
+        ideaModel.getComments(id, function(data) {
+            $scope.comments = data;
+            $scope.$digest();
+        }, function() {
+
+        })
+
+        $scope.myComment = "";
+
+        $scope.addOk = function() {
+            var text = $scope.myComment;
+            if(text == "") {
+                return;
+            }
+            ideaModel.comment(text, id, function(data){
+                $scope.myComment = "";
+                $scope.showAddComment=false;
+                $scope.$apply();
+                ideaModel.getComments(id, function(data) {
+                    $scope.comments = data;
+                    $scope.$digest();
+                }, function() {
+
+                })
+            }, function(){
+
+            });
+        }
+
+        $scope.addCancel = function() {
+            $scope.myComment = "";
+            $scope.showAddComment=false;
+        }
     }])
-    .controller('ideaPreviewCtrl',['ideaModel','$scope', function(ideaM,$scope){
-        $scope.idea= ideaM.get();
+    .controller('ideaPreviewCtrl', ['createIdea', '$scope', function (ideaM, $scope) {
+        $scope.idea = ideaM.getIdea();
+        $scope.loading = {}
+        $scope.submit =
+            function () {
+                if($scope.loading.rightBt) {
+                    return;
+                }
+                $scope.loading.rightBt = true;
+                ideaM.submit(function (data) {
+                    $scope.go("homepage", "slideRight");
+                    $scope.loading.rightBt = false;
+                    $scope.$apply();
+                }, function() {
+                    $scope.loading.rightBt = false;
+                    $scope.$apply();
+                });
+            };
     }])

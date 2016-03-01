@@ -1,0 +1,21 @@
+<div id="user-add-list" class="pages">
+    <nav nav-top data-left="back" data-center="Select Colleagues {{number}}"
+         fn-left="go()"></nav>
+    <div class="page-content">
+        <p class="search">
+            <input type="search" placeholder="Search" ng-model="keyword"/>
+        </p>
+        <div class="user-list">
+            <p class="item" ng-repeat="user in list|filter:keyword">
+                <img ng-src="{{user.head}}" class="img-circle"/>
+                {{user.lastname}} {{user.firstname}}
+                <input type="checkbox" ng-change="change({{user}})" class="pull-right" ng-model="user.selected"/>
+            </p>
+        </div>
+        <div class="navbar navbar-default navbar-fixed-bottom footer">
+            <div class="container">
+                <button type="button" class="btn btn-success btn-block" ng-click="add()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

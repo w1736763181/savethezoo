@@ -1,6 +1,6 @@
 <div id="register-step3" class="pages">
 	<nav nav-top data-left="back" data-right="Save" data-center="Register"
-	     fn-left="go()" fn-right="save()"></nav>
+	     fn-left="go()" fn-right="save()" loading="{{loading.rightBtn}}"></nav>
 
 	<div class="col-lg-8 col-lg-offset-2 page-content">
 		<form id="regForm3" name="regForm" role="form" class="form-horizontal">
@@ -36,7 +36,6 @@
 		</form>
 
 	</div>
-	<div modal ng-show="show" class="my-modal" data-title="{{title}}" data-content="{{content}}" 
-	  fn-ok="fnOk()" data-ok="ok"></div>
+
 
 </div>

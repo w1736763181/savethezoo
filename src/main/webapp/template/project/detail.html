@@ -1,10 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div id="project-preview" class="pages">
+    <nav nav-top data-left="back" data-center="Project"
+         fn-left = "go()" ></nav>
+    <div class="page-content">
+        <div>
+            <div class="detail_header">
+                <div class="header-image">
+                    <img class="img-circle center-block" ng-src="img/category/2giraffe_designfinish.png" />
+                </div>
+                <div class="header-content">
+                    <h3 class="title"><strong>{{project.title}}</strong></h3>
+                    <div class="create-info">
+                        <p class="creator">{{project.firstname}} {{project.lastname}}</p>
+                        <p class="create-time">{{project.createDate}}</p>
+                        <div ng-if="project.uid != user.id">
+                            <p class="status" ng-if="project.status == 0">Not start</p>
+                            <p class="status" ng-if="project.status == 1">Design Finish</p>
+                            <p class="status" ng-if="project.status == 2">Ready For Demo</p>
+                        </div>
+                        <div ng-if="project.uid == user.id">
+                            <div class="form-group status" style="margin-left: 1%; background: transparent; float: left">
+                                <select class="form-control" style="height: 30px;position: absolute;width: 10em;padding: 0;" ng-options="item as item.label for item in items track by item.id"
+                                        ng-change="changeStatus()" ng-model="status.selected"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail_pics">
+                <ul rn-carousel  rn-carousel-index="carouselIndex" class="image">
+                    <li  ng-repeat="image in [] | range:project.images">
+                        <div ng-style="{'background-image': 'url(img/project/' + project.id + '/' + image + '.png)'}">
+                            <div rn-carousel-indicators ng-if="idea.files.length > 1" slides="idea.files" rn-carousel-index="carouselIndex"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="detail-content">
+                <div class="block description">
+                    <h4 class="desclable">Description</h4>
+                    <p class="text desc">{{project.description}}</p>
+                </div>
+                <div class="block bi">
+                    <h4 class="bilable">Planed Period</h4>
+                    <p class="text bi">{{project.startDate}} ~ {{project.toDate}}</p>
+                </div>
+                <div class="block ProjectMember">
+                    <h4 class="desclable">Project Member</h4>
+                    <div class="imgs">
+                    <div class="member img" ng-repeat="user in users track by $index" >
+                        <img ng-src="{{user.head}}" class="img-circle" />
+                        <span style="position: absolute; ">{{user.firstname}}</span>
+                    </div>
+                    <div class="img add">
+                        <a ng-click="go('/project/add_user','slideLeft')"><img src="img/idea/add.png" /></a>
+                    </div>
+                        </div>
+                </div>
+                <div class="block" style="margin-top: 20px">
+                    <h4 ng-if="comments != null">Comments</h4>
+                    <div class="comment">
+                        <div ng-repeat="cmt in comments" class="item">
+                            <div class="operations-user">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <a ng-click="go('/user/{{cmt.user.id}}','slideLeft')"><img ng-src="{{cmt.user.head}}" alt=""></a>
+                                    </div>
+                                    <a ng-click="go('/user/{{cmt.user.id}}','slideLeft')"  class="user-name">{{cmt.user.lastname}} {{cmt.user.firstname}}</a>
+                                    <div class="user-other">
+                                    <span class="times">
+                                        {{cmt.createdAt}}
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reply-content">
+                                <div class="current-content">
+                                <span class="short-content">
+                                    {{cmt.text}}
+                                </span>
+                                </div>
+                            </div>
+                        </div>
 
-</body>
-</html>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar navbar-default navbar-fixed-bottom footer">
+            <div class="container">
+                <i class="pull-left add-comment" ng-click="showAddComment=true">
+                    <i class="fa fa-comment"></i>Add Your Comment
+                </i>
+            <i ng-if="project.voting != null" class="like">
+                <i class="pull-right"><i class="fa fa-heart"></i>{{project.likes}}</i>
+            </i>
+            <i ng-if="project.voting == null" class="like">
+                <i class="pull-right"><i class="fa fa-heart-o" ng-click="like()"></i>{{project.likes}}</i>
+            </i>
+
+            </div>
+        </div>
+        <div class="comment-modal" ng-show="showAddComment">
+            <div class="inner">
+                <div class="tit">
+                    <a ng-click="addCancel()" class="pull-left">cancel</a>
+                    <span class="title">Add Your Comment</span>
+                    <a ng-click="addOk()" class="pull-right">ok</a>
+                </div>
+                <div class="form-group txt">
+                    <textarea name='description' class="form-control" rows="10" ng-model="myComment" required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

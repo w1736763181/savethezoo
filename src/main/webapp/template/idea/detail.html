@@ -1,25 +1,33 @@
 <div id="idea-detail" class="pages">
-    <nav nav-top data-left="<" data-center="Idea Detail" data-right=""
+    <nav nav-top data-left="back" data-center="Idea Detail" data-right=""
          fn-left = "go()" fn-right=""></nav>
     <div class="page-content">
         <div>
             <div class="detail_header">
                 <div class="header-image">
-                    <img class="img-circle center-block" ng-src="img/head.png" />
+                    <img class="img-circle center-block" ng-src="{{idea.categoryImage}}" />
                 </div>
                 <div class="header-content">
                     <h3 class="title"><strong>{{idea.title}}</strong></h3>
                     <div class="create-info">
-                        <p class="creator">{{idea.firstname}}</p>
+                        <p class="creator">{{item.lastname}} {{idea.firstname}}</p>
                         <p class="create-time">{{idea.createdate}}</p>
                     </div>
                 </div>
             </div>
             <div class="detail_pics">
-                <ul rn-carousel  rn-carousel-index="carouselIndex" class="image">
-                    <li  ng-repeat="image in idea.files track by $index">
-                        <div ng-style="{'background-image': 'url(' + image + ')'}">
-                            <div rn-carousel-indicators ng-if="idea.images.length > 1" slides="idea.images" rn-carousel-index="carouselIndex"></div>
+                <ul ng-if="idea.images == 0" rn-carousel  rn-carousel-index="carouselIndex" class="image">
+                    <li>
+                        <div style="background-image: url('img/idea/default.jpg')">
+                            <!--<div rn-carousel-indicators ng-if="idea.files.length > 1" slides="idea.files" rn-carousel-index="carouselIndex"></div>-->
+                        </div>
+                    </li>
+                </ul>
+
+                <ul ng-if="idea.images > 0" rn-carousel  rn-carousel-index="carouselIndex" class="image">
+                    <li  ng-repeat="image in [] | range:idea.images">
+                        <div ng-style="{'background-image': 'url(img/idea/' + idea.id + '/' + image + '.png)'}">
+                            <div rn-carousel-indicators ng-if="idea.images > 1" slides="idea.files" rn-carousel-index="carouselIndex"></div>
                         </div>
                     </li>
                 </ul>
@@ -31,14 +39,63 @@
                 </div>
                 <div class="block bi">
                     <h4 class="bilable">Business Impact</h4>
-                    <p class="text bi">{{idea.impact}}</p>
+                    <p class="text bi">{{idea.businessImpact}}</p>
+                </div>
+                <div class="block">
+                    <h4 ng-if="comments != null">Comments</h4>
+                    <div class="comment">
+                        <div ng-repeat="cmt in comments" class="item">
+                            <div class="operations-user">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <a ng-click="go('/user/{{cmt.user.id}}','slideLeft')"><img ng-src="{{cmt.user.head}}" alt=""></a>
+                                    </div>
+                                    <a ng-click="go('/user/{{cmt.user.id}}','slideLeft')"  class="user-name">{{cmt.user.lastname}} {{cmt.user.firstname}}</a>
+                                    <div class="user-other">
+                                    <span class="times">
+                                        {{cmt.createdAt}}
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reply-content">
+                                <div class="current-content">
+                                <span class="short-content">
+                                    {{cmt.text}}
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="navbar navbar-default navbar-fixed-bottom footer">
         <div class="container">
-            <i class="pull-right"><i class="fa fa-heart"></i>8</i>
+            <i class="pull-left add-comment" ng-click="showAddComment=true">
+                <i class="fa fa-comment"></i>Add Your Comment
+            </i>
+            <i ng-if="idea.voting != null" class="like">
+                <i class="pull-right"><i class="fa fa-heart"></i>{{idea.likes}}</i>
+            </i>
+            <i ng-if="idea.voting == null" class="like">
+                <i class="pull-right"><i class="fa fa-heart-o" ng-click="like()"></i>{{idea.likes}}</i>
+            </i>
+
+        </div>
+    </div>
+    <div class="comment-modal" ng-show="showAddComment">
+        <div class="inner">
+            <div class="tit">
+                <a ng-click="addCancel()" class="pull-left">cancel</a>
+                <span class="title">Add Your Comment</span>
+                <a ng-click="addOk()" class="pull-right">ok</a>
+            </div>
+            <div class="form-group txt">
+                <textarea name='description' class="form-control" rows="10" ng-model="myComment" required></textarea>
+            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,22 @@
+<div id="project-create-step6" class="pages idea-create">
+	<nav nav-top data-left="back" data-right="Preview" data-center="Create Project"
+	     fn-left="go()" fn-right="go('/project/preview','slideLeft')"></nav>
+	<div class="page-content">
+		<p class="step-img"></p>
+		<p class="step-title">Invite Colleagues</p>
+		<p class="step-desrcip">You could invite 3-4 colleagues to join the project</p>
+		<div class="add-pic">
+			<div class="imgs">
+				<div class="img" ng-repeat="user in users track by $index" >
+					<img ng-src="{{user.head}}" class="img-circle" />
+					<span style="position: absolute; ">{{user.firstname}}</span>
+					<span class="close glyphicon glyphicon-remove" ng-click="delUser($index)"></span>
+				</div>
+				<div class="img add">
+					<a ng-click="go('/project/add_user','slideLeft')"><img src="img/idea/add.png" /></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

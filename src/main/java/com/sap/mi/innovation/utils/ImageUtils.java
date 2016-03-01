@@ -60,13 +60,13 @@ public class ImageUtils {
 
     public static void main (String args[]) throws IOException {
         /* Test image to string and string to image start */
-        BufferedImage img = ImageIO.read(new File("files/img/TestImage.png"));
+        BufferedImage img = ImageIO.read(new File("img/showimage.jpg"));
         BufferedImage newImg;
         String imgstr;
-        imgstr = encodeToString(img, "png");
+        imgstr = encodeToString(img, "jpg");
         System.out.println(imgstr);
         newImg = decodeToImage(imgstr);
-        ImageIO.write(newImg, "png", new File("files/img/CopyOfTestImage.png"));
+        ImageIO.write(newImg, "png", new File("img/CopyOfTestImage.png"));
         /* Test image to string and string to image finish */
     }
 }
